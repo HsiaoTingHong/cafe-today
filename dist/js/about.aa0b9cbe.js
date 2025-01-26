@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkcafe_today"]=self["webpackChunkcafe_today"]||[]).push([[594],{6586:function(e,n,t){t.r(n),t.d(n,{default:function(){return i}});var a=t(6768);const u={class:"bg-blue-500 text-white p-4 rounded-lg shadow-md"};function d(e,n,t,d,r,c){return(0,a.uX)(),(0,a.CE)("div",u," Tailwind CSS 已成功安裝！ ")}var r={name:"TestTailwind"},c=t(1241);const s=(0,c.A)(r,[["render",d]]);var i=s}}]);
+//# sourceMappingURL=about.aa0b9cbe.js.map
