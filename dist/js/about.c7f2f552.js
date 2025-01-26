@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkcafe_today"]=self["webpackChunkcafe_today"]||[]).push([[594],{8472:function(e,t,a){a.r(t),a.d(t,{default:function(){return d}});var n=a(6768);const u={class:"about bg-blue-500 text-white p-4 rounded-lg shadow-md"};function r(e,t){return(0,n.uX)(),(0,n.CE)("div",u,t[0]||(t[0]=[(0,n.Lk)("h1",null,"This is an about page",-1)]))}var s=a(1241);const c={},o=(0,s.A)(c,[["render",r]]);var d=o}}]);
-//# sourceMappingURL=about.c7f2f552.js.map
