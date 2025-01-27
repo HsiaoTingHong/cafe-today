@@ -1,9 +1,9 @@
 <template>
-  <p>HomeView測試</p>
+  <p>ListView測試</p>
 </template>
 
 <script>
 export default {
-  name: 'HomeView',
+  name: 'ListView',
 };
 </script>
