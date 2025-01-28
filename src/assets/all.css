@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.wrapper {
+    @apply max-w-[1000px] mx-auto px-[5%];
+}
