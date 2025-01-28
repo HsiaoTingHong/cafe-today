@@ -10,13 +10,13 @@
         </button>
       </div>
       <ul :class="['nav-list', { 'nav-active': isMenuOpen }]">
-        <router-link to="/about" @click.prevent="toggleMenu">
+        <router-link to="/about" @click.prevent="closeMenu">
           <li class="nav-item">關於</li>
         </router-link>
-        <router-link to="/list" @click.prevent="toggleMenu">
+        <router-link to="/list" @click.prevent="closeMenu">
           <li class="nav-item">列表</li>
         </router-link>
-        <router-link to="/destiny" @click.prevent="toggleMenu">
+        <router-link to="/destiny" @click.prevent="closeMenu">
           <li class="nav-item">抽籤</li>
         </router-link>
       </ul>
@@ -35,6 +35,11 @@ export default {
   methods: {
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+    closeMenu() {
+      if (this.isMenuOpen === true) {
+        this.isMenuOpen = !this.isMenuOpen;
+      }
     },
   },
 };
