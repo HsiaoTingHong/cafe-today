@@ -34,7 +34,10 @@ export default {
 .btn {
   @apply flex w-30 items-center justify-center rounded-lg
   px-3 py-2 text-2xl font-semibold
-  bg-stone-500 text-white;
+  bg-stone-500 text-white
+  hover:bg-stone-300 hover:text-stone-600
+  active:border-1 active:bg-white
+  transition-all duration-500;
 }
 
 .image {
