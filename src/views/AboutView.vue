@@ -42,6 +42,6 @@ export default {
 }
 
 .image {
-  @apply opacity-40 w-50;
+  @apply opacity-40 w-50 -z-10;
 }
 </style>
