@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <p>Made by {{ nowYear }} Hsiao Ting Hong</p>
+    <p>© {{ nowYear }} Made By Hsiao Ting Hong.</p>
   </footer>
 </template>
 
@@ -29,6 +29,6 @@ export default {
 
 .footer {
   @apply h-[10vh] flex justify-center py-5
-  text-center text-xs text-stone-400;
+  text-center text-xs text-stone-400 font-mono;
 }
 </style>
