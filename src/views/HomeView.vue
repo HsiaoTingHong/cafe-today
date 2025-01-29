@@ -24,7 +24,7 @@ export default {
 @import "tailwindcss";
 
 .screen-center {
-  @apply h-[90vh] flex flex-col items-center justify-center text-center gap-4;
+  @apply min-h-[80vh] flex flex-col items-center justify-center text-center gap-4;
 }
 
 .slogan {
