@@ -53,7 +53,7 @@ export default {
 }
 
 .nav {
-  @apply flex justify-between items-center px-4 py-1 relative;
+  @apply flex justify-between items-center py-1 relative;
 }
 
 .logo {
