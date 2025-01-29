@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <nav class="nav wrapper">
-      <router-link to="/"><p class="logo">cafe today?</p></router-link>
+      <router-link to="/"><p class="logo font-amatic-sc">cafe today?</p></router-link>
       <div class="md:hidden">
         <button class="hamburger" @click.prevent="toggleMenu" aria-label="選單">
           <span class="hamburger-line"></span>
@@ -57,7 +57,7 @@ export default {
 }
 
 .logo {
-  @apply text-nowrap text-2xl px-2 py-2
+  @apply text-nowrap text-4xl font-semibold px-2 py-2
   text-stone-600 hover:text-white active:text-stone-300
   transition-all duration-500;
 }
