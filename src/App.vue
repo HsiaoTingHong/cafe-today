@@ -1,7 +1,8 @@
 <template>
   <NavComponent></NavComponent>
-  <router-view/>
-  <p>App.vue測試</p>
+  <div class="wrapper font-mono">
+    <router-view />
+  </div>
 </template>
 
 <script>
