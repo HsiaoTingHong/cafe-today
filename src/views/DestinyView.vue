@@ -94,7 +94,7 @@
     <button
       class="btn btn-start click-color-light"
       @click.prevent="getDestinyShop"
-      :disabled="isLoading || !selectedOption"
+      :disabled="isLoading || !selectedOption || !isGetData"
     >
       {{ isLoading ? "抽籤中..." : "點擊進行抽籤" }}
     </button>
@@ -132,6 +132,7 @@ export default {
       ],
       selectedShop: '',
       shopData: [],
+      isGetData: false,
       isLoading: false,
       isLoadingDown: false,
     };
@@ -165,9 +166,11 @@ export default {
         .then((res) => {
           this.shopData = res.data;
           console.log('選擇城市的咖啡店數量', this.selectedOption, this.shopData.length);
+          this.isGetData = true;
         })
         .catch((error) => {
           console.error('API 請求失敗!', error);
+          this.isGetData = false;
         });
     },
     sleep(ms) {
