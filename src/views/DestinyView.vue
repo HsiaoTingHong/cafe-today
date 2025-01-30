@@ -1,4 +1,5 @@
 <template>
+  <LoadingOverlay :active="isLoading" color="#79716b"></LoadingOverlay>
   <div class="screen-center">
     <p class="slogan">今天要去哪間咖啡店呢？</p>
     <div class="table-border" v-if="isLoadingDown">
