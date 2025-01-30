@@ -61,7 +61,7 @@ export default {
         {
           name: 'DM CAFE',
           address: '403台中市西區民生路225巷11號',
-          website: 'https://www.facebook.com/DM-Cafe-416267108508818/timeline/',
+          website: 'https://www.facebook.com/people/DM-Cafe/100063900491620/',
           open_time: '星期一至五 09:00–18:00',
         },
         {
