@@ -18,7 +18,6 @@ export default {
       title: 'About Cafe Today',
       content: [
         '靈感：https://letswritetw.github.io/letswrite-food-check/',
-        'API：https://cafenomad.tw/developers/docs/v1.2',
         '素材：https://vectorshelf.com/ ',
       ],
     };
