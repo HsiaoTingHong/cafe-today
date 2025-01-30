@@ -17,7 +17,7 @@
           </td>
         </tr>
         <tr>
-          <th class="table-td border-b border-r">官網(連結)</th>
+          <th class="table-td border-b border-r">官網<br />(連結)</th>
           <td class="table-td border-b text-stone-500">
             <a :href="selectedShop.website" target="_blank" rel="noreferrer noopener">
               {{ selectedShop.website }}
@@ -25,7 +25,7 @@
           </td>
         </tr>
         <tr>
-          <th class="table-td border-r">營業時間</th>
+          <th class="table-td border-r">營業<br />時間</th>
           <td class="table-td">
             {{ selectedShop.open_time }}
           </td>
