@@ -3,3 +3,18 @@
 .wrapper {
     @apply max-w-[1000px] mx-auto px-[5%];
 }
+
+.click-color-dark {
+    @apply text-stone-600
+    hover:text-stone-300
+    active:text-white
+    transition-all duration-500;
+
+}
+
+.click-color-light {
+    @apply bg-stone-500 text-white
+    hover:bg-stone-300 hover:text-stone-600
+    active:border-1 active:bg-white
+    transition-all duration-500;
+}

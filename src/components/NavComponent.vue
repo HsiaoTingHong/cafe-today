@@ -1,7 +1,9 @@
 <template>
   <header class="header">
     <nav class="nav wrapper">
-      <router-link to="/"><p class="logo font-amatic-sc">cafe today?</p></router-link>
+      <router-link to="/">
+        <p class="logo click-color-dark font-amatic-sc">cafe today?</p>
+      </router-link>
       <div class="md:hidden">
         <button class="hamburger" @click.prevent="toggleMenu" aria-label="選單">
           <span class="hamburger-line"></span>
@@ -11,13 +13,13 @@
       </div>
       <ul :class="['nav-list', { 'nav-active': isMenuOpen }]">
         <router-link to="/about" @click.prevent="closeMenu">
-          <li class="nav-item">關於</li>
+          <li class="nav-item click-color-light">關於</li>
         </router-link>
         <router-link to="/list" @click.prevent="closeMenu">
-          <li class="nav-item">列表</li>
+          <li class="nav-item click-color-light">列表</li>
         </router-link>
         <router-link to="/destiny" @click.prevent="closeMenu">
-          <li class="nav-item">抽籤</li>
+          <li class="nav-item click-color-light">抽籤</li>
         </router-link>
       </ul>
     </nav>
@@ -57,9 +59,7 @@ export default {
 }
 
 .logo {
-  @apply text-nowrap text-4xl font-semibold px-2 py-2
-  text-stone-600 hover:text-white active:text-stone-300
-  transition-all duration-500;
+  @apply text-nowrap text-4xl font-semibold px-2 py-2;
 }
 
 /* hamburger按鈕 */
@@ -100,10 +100,7 @@ export default {
 .nav-item {
   @apply font-semibold
     text-nowrap text-sm
-    px-3 py-1.5 mb-2 md:px-3 md:py-1.5 md:my-1.5
-    border-1 rounded-md
-    text-white hover:text-stone-600 active:text-stone-300
-    transition-all duration-500
+    px-3 py-1.5 mb-2 md:px-3 md:py-1.5 md:my-1.5 rounded-md
     w-full md:w-auto
     text-center;
 }
