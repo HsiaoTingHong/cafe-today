@@ -151,7 +151,15 @@ export default {
       }
 
       // apiUrl：在 vue.config.js 設定 proxy 前綴 & 綁定選擇的城市
-      const apiUrl = `/api/v1.2/cafes/${this.selectedOption}`;
+      // const apiUrl = `/api/v1.2/cafes/${this.selectedOption}`;
+
+      // 根據環境使用不同的 API URL
+      const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+      const API_URL = `https://cafenomad.tw/api/v1.2/cafes/${this.selectedOption}`;
+
+      const apiUrl = process.env.NODE_ENV === 'production'
+        ? `${CORS_PROXY}${API_URL}` // 生產環境使用 CORS proxy
+        : `/api/v1.2/cafes/${this.selectedOption}`; // 開發環境使用 proxy
 
       axios.get(apiUrl)
         .then((res) => {
