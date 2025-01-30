@@ -28,7 +28,7 @@ export default {
 @import "tailwindcss";
 
 .footer {
-  @apply h-[10vh] flex justify-center py-5
+  @apply h-[8vh] flex justify-center py-5
   text-center text-xs text-stone-400 font-mono;
 }
 </style>

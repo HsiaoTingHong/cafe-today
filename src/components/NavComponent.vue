@@ -49,7 +49,7 @@ export default {
 @import "tailwindcss";
 
 .header {
-  @apply h-[10vh] font-mono bg-stone-400;
+  @apply font-mono bg-stone-400;
 }
 
 .nav {
