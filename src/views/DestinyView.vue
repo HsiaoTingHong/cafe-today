@@ -14,9 +14,6 @@
         </option>
       </select>
     </div>
-    <p class="text">
-      你選擇的是：<span class="selected-text">{{ selectedOption }}</span>
-    </p>
     <div class="table-border" v-if="isLoadingDown">
       <table class="table-all">
         <tr>
@@ -75,11 +72,12 @@
         </tr>
         <tr>
           <th class="table-td border-r">官網連結</th>
-          <td class="table-td text-stone-500">
+          <td class="table-td url-cell">
             <a
               :href="selectedShop.url"
               target="_blank"
               rel="noreferrer noopener"
+              class="url-link"
             >
               {{ selectedShop.url || "無" }}
             </a>
@@ -214,7 +212,7 @@ export default {
 }
 
 .label {
-  @apply w-30 font-semibold text-stone-500 text-sm;
+  @apply w-30 font-semibold text-stone-500 text-sm text-right;
 }
 
 .select {
@@ -245,8 +243,20 @@ export default {
 
 .table-td {
   @apply px-3 py-2
-  text-xs md:text-sm text-wrap
-  border-stone-400;
+  text-xs md:text-sm
+  border-stone-400
+  break-all overflow-hidden;
+}
+
+.url-cell {
+  @apply max-w-[200px] md:max-w-[300px]
+  break-all truncate;
+}
+
+.url-link {
+  @apply hover:underline
+  inline-block w-full break-all
+  text-stone-500;
 }
 
 .btn {
