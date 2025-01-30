@@ -154,11 +154,11 @@ export default {
       // const apiUrl = `/api/v1.2/cafes/${this.selectedOption}`;
 
       // 根據環境使用不同的 API URL
-      const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
       const API_URL = `https://cafenomad.tw/api/v1.2/cafes/${this.selectedOption}`;
+      const PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(API_URL)}`;
 
       const apiUrl = process.env.NODE_ENV === 'production'
-        ? `${CORS_PROXY}${API_URL}` // 生產環境使用 CORS proxy
+        ? `${PROXY_URL}` // 生產環境使用 CORS proxy
         : `/api/v1.2/cafes/${this.selectedOption}`; // 開發環境使用 proxy
 
       axios.get(apiUrl)
