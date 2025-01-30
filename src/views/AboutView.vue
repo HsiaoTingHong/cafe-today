@@ -19,6 +19,7 @@ export default {
       content: [
         '靈感：https://letswritetw.github.io/letswrite-food-check/',
         '素材：https://vectorshelf.com/ ',
+        'API：https://cafenomad.tw/developers/docs/v1.2 ',
       ],
     };
   },

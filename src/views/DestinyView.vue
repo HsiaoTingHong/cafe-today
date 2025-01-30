@@ -2,41 +2,99 @@
   <LoadingOverlay :active="isLoading" color="#79716b"></LoadingOverlay>
   <div class="screen-center">
     <p class="slogan">今天要去哪間咖啡店呢？</p>
+    <div class="container">
+      <label for="dropdown" class="label">選擇城市：</label>
+      <select id="dropdown" v-model="selectedOption" class="select">
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+    <p class="text">
+      你選擇的是：<span class="selected-text">{{ selectedOption }}</span>
+    </p>
     <div class="table-border" v-if="isLoadingDown">
       <table class="table-all">
         <tr>
-          <th class="table-td border-b border-r">店名</th>
+          <th class="table-td border-b border-r w-25 text-nowrap">店家名稱</th>
           <td class="table-td border-b">
-            {{ selectedShop.name }}
+            {{ selectedShop.name || "無" }}
           </td>
         </tr>
         <tr>
           <th class="table-td border-b border-r">地址</th>
           <td class="table-td border-b">
-            {{ selectedShop.address }}
+            {{ selectedShop.address || "無" }}
           </td>
         </tr>
         <tr>
-          <th class="table-td border-b border-r">官網<br />(連結)</th>
-          <td class="table-td border-b text-stone-500">
-            <a :href="selectedShop.website" target="_blank" rel="noreferrer noopener">
-              {{ selectedShop.website }}
+          <th class="table-td border-b border-r">咖啡好喝</th>
+          <td class="table-td border-b">
+            {{ selectedShop.tasty || "無" }}
+          </td>
+        </tr>
+        <tr>
+          <th class="table-td border-b border-r">價格便宜</th>
+          <td class="table-td border-b">
+            {{ selectedShop.cheap || "無" }}
+          </td>
+        </tr>
+        <tr>
+          <th class="table-td border-b border-r">裝潢音樂</th>
+          <td class="table-td border-b">
+            {{ selectedShop.music || "無" }}
+          </td>
+        </tr>
+        <tr>
+          <th class="table-td border-b border-r">wifi穩定</th>
+          <td class="table-td border-b">
+            {{ selectedShop.wifi || "無" }}
+          </td>
+        </tr>
+        <tr>
+          <th class="table-td border-b border-r">插座多</th>
+          <td class="table-td border-b">
+            {{ selectedShop.socket || "無" }}
+          </td>
+        </tr>
+        <tr>
+          <th class="table-td border-b border-r">有無限時</th>
+          <td class="table-td border-b">
+            {{ selectedShop.limited_time || "無" }}
+          </td>
+        </tr>
+        <tr>
+          <th class="table-td border-b border-r">營業時間</th>
+          <td class="table-td border-b">
+            {{ selectedShop.open_time || "無" }}
+          </td>
+        </tr>
+        <tr>
+          <th class="table-td border-r">官網連結</th>
+          <td class="table-td text-stone-500">
+            <a
+              :href="selectedShop.url"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {{ selectedShop.url || "無" }}
             </a>
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-r">營業<br />時間</th>
-          <td class="table-td">
-            {{ selectedShop.open_time }}
           </td>
         </tr>
       </table>
     </div>
-    <p class="text-xs text-stone-400">營業時間可能不同，出發前請至官方網站確認</p>
+    <p class="text-xs text-stone-400">
+      營業時間可能不同，出發前請至官方網站確認
+    </p>
+    <!-- 當正在抽籤 or 尚未選擇城市時，按鈕會被禁用 -->
     <button
       class="btn btn-start click-color-light"
       @click.prevent="getDestinyShop"
-      :disabled="isLoading"
+      :disabled="isLoading || !selectedOption"
     >
       {{ isLoading ? "抽籤中..." : "點擊進行抽籤" }}
     </button>
@@ -45,54 +103,65 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'DestinyView',
   data() {
     return {
+      selectedOption: '',
+      options: [
+        { value: '', label: '請先選擇城市' },
+        { value: 'Keelung', label: '基隆' },
+        { value: 'taipei', label: '台北' },
+        { value: 'taoyuan', label: '桃園' },
+        { value: 'hsinchu', label: '新竹' },
+        { value: 'miaoli', label: '苗栗' },
+        { value: 'taichung', label: '台中' },
+        { value: 'changhua', label: '彰化' },
+        { value: 'nantou', label: '南投' },
+        { value: 'yunlin', label: '雲林' },
+        { value: 'chiayi', label: '嘉義' },
+        { value: 'tainan', label: '台南' },
+        { value: 'kaohsiung', label: '高雄' },
+        { value: 'pingtung', label: '屏東' },
+        { value: 'yilan', label: '宜蘭' },
+        { value: 'hualien', label: '花蓮' },
+        { value: 'taitung', label: '台東' },
+        { value: 'penghu', label: '澎湖' },
+      ],
       selectedShop: '',
+      shopData: [],
       isLoading: false,
       isLoadingDown: false,
-      shopData: [
-        {
-          name: 'yosano 与謝野珈琲',
-          address: '403台中市西區自治街242號',
-          website: 'https://www.facebook.com/yosanozikabi',
-          open_time: '星期一至六 12:00–22:00，星期日 12:00–17:30',
-        },
-        {
-          name: 'DM CAFE',
-          address: '403台中市西區民生路225巷11號',
-          website: 'https://www.facebook.com/people/DM-Cafe/100063900491620/',
-          open_time: '星期一至五 09:00–18:00',
-        },
-        {
-          name: '招財咖啡舖',
-          address: '40357台中市西區梅川西路一段37號',
-          website: 'https://reurl.cc/10xdQQ',
-          open_time: '星期二至五、星期日 13:00–22:00',
-        },
-        {
-          name: 'Kefi Park Roasters 珈琲公園',
-          address: '403台中市西區自立街105號',
-          website: 'https://instagram.com/kefipark?igshid=M2RkZGJiMzhjOQ==',
-          open_time: '星期一至日 11:00–18:00',
-        },
-        {
-          name: '奉咖啡 ｜交響樂｜ 單品專賣店',
-          address: '403台中市西區自立街106號',
-          website: 'https://lin.ee/IFXWXB0',
-          open_time: '星期四至星期二 13:00–22:30',
-        },
-        {
-          name: 'Tamp Temper Taichung Coffee',
-          address: '403台中市西區民權路286號',
-          website: '無',
-          open_time: '星期一至五 09:00–17:30，星期六 09:30–16:00',
-        },
-      ],
     };
   },
+  watch: {
+    selectedOption(newVal) {
+      if (newVal) {
+        this.getData(); // 只在選擇城市後才觸發 API 請求
+      }
+    },
+  },
   methods: {
+    getData() {
+      if (!this.selectedOption) {
+        console.warn('請選擇一個城市!');
+        return;
+      }
+
+      // apiUrl：在 vue.config.js 設定 proxy 前綴 & 綁定選擇的城市
+      const apiUrl = `/api/v1.2/cafes/${this.selectedOption}`;
+
+      axios.get(apiUrl)
+        .then((res) => {
+          this.shopData = res.data;
+          console.log('選擇城市的咖啡店數量', this.selectedOption, this.shopData.length);
+        })
+        .catch((error) => {
+          console.error('API 請求失敗!', error);
+        });
+    },
     sleep(ms) {
       return new Promise((resolve) => {
         setTimeout(resolve, ms);
@@ -129,13 +198,37 @@ export default {
   @apply text-stone-400 font-semibold text-xl;
 }
 
+.container {
+  @apply w-60 flex justify-center items-center;
+}
+
+.label {
+  @apply w-30 font-semibold text-stone-500 text-sm;
+}
+
+.select {
+  @apply w-full p-1
+  border border-stone-300 hover:border-stone-400
+  rounded-lg shadow-sm
+  focus:ring-2 focus:ring-stone-500 focus:outline-none
+  bg-white text-stone-700 text-center;
+}
+
+.text {
+  @apply font-semibold text-stone-500 text-sm;
+}
+
+.selected-text {
+  @apply font-semibold text-stone-700;
+}
+
 .table-border {
   @apply rounded-lg overflow-hidden
   border-2 border-stone-400;
 }
 
 .table-all {
-  @apply min-w-[60vw] md:min-w-[30vw]
+  @apply w-[80vw] md:w-[50vw]
   text-stone-600 border-collapse;
 }
 
