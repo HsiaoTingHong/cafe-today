@@ -102,49 +102,40 @@
 
 <script>
 import axios from 'axios';
+import { ref, reactive, watch } from 'vue';
 
 export default {
   name: 'DestinyView',
-  data() {
-    return {
-      selectedOption: '',
-      options: [
-        { value: '', label: '請先選擇城市' },
-        { value: 'Keelung', label: '基隆' },
-        { value: 'taipei', label: '台北' },
-        { value: 'taoyuan', label: '桃園' },
-        { value: 'hsinchu', label: '新竹' },
-        { value: 'miaoli', label: '苗栗' },
-        { value: 'taichung', label: '台中' },
-        { value: 'changhua', label: '彰化' },
-        { value: 'nantou', label: '南投' },
-        { value: 'yunlin', label: '雲林' },
-        { value: 'chiayi', label: '嘉義' },
-        { value: 'tainan', label: '台南' },
-        { value: 'kaohsiung', label: '高雄' },
-        { value: 'pingtung', label: '屏東' },
-        { value: 'yilan', label: '宜蘭' },
-        { value: 'hualien', label: '花蓮' },
-        { value: 'taitung', label: '台東' },
-        { value: 'penghu', label: '澎湖' },
-      ],
-      selectedShop: '',
-      shopData: [],
-      isLoading: false, // 是否正在取得 API 資料
-      isDestiny: false, // 是否正在抽籤
-      isDestinyDone: false, // 是否抽籤完畢
-    };
-  },
-  watch: {
-    selectedOption(newVal) {
-      if (newVal) {
-        this.getData(); // 只在選擇城市後才觸發 API 請求
-      }
-    },
-  },
-  methods: {
-    getData() {
-      if (!this.selectedOption) {
+  setup() {
+    const selectedOption = ref('');
+    const options = reactive([
+      { value: '', label: '請先選擇城市' },
+      { value: 'Keelung', label: '基隆' },
+      { value: 'taipei', label: '台北' },
+      { value: 'taoyuan', label: '桃園' },
+      { value: 'hsinchu', label: '新竹' },
+      { value: 'miaoli', label: '苗栗' },
+      { value: 'taichung', label: '台中' },
+      { value: 'changhua', label: '彰化' },
+      { value: 'nantou', label: '南投' },
+      { value: 'yunlin', label: '雲林' },
+      { value: 'chiayi', label: '嘉義' },
+      { value: 'tainan', label: '台南' },
+      { value: 'kaohsiung', label: '高雄' },
+      { value: 'pingtung', label: '屏東' },
+      { value: 'yilan', label: '宜蘭' },
+      { value: 'hualien', label: '花蓮' },
+      { value: 'taitung', label: '台東' },
+      { value: 'penghu', label: '澎湖' },
+    ]);
+    const selectedShop = ref('');
+    const shopData = ref([]);
+    const isLoading = ref(false); // 是否正在取得 API 資料
+    const isDestiny = ref(false); // 是否正在抽籤
+    const isDestinyDone = ref(false); // 是否抽籤完畢
+
+    const getData = async function getData() {
+      if (!selectedOption.value) {
         console.warn('請選擇一個城市!');
         return;
       }
@@ -153,47 +144,66 @@ export default {
       // const apiUrl = `/api/v1.2/cafes/${this.selectedOption}`;
 
       // 根據環境使用不同的 API URL
-      const API_URL = `https://cafenomad.tw/api/v1.2/cafes/${this.selectedOption}`;
+      const API_URL = `https://cafenomad.tw/api/v1.2/cafes/${selectedOption.value}`;
       const PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(API_URL)}`;
 
       const apiUrl = process.env.NODE_ENV === 'production'
-        ? `${PROXY_URL}` // 生產環境使用 CORS proxy
-        : `/api/v1.2/cafes/${this.selectedOption}`; // 開發環境使用 proxy
+        ? PROXY_URL // 生產環境使用 CORS proxy
+        : `/api/v1.2/cafes/${selectedOption.value}`; // 開發環境使用 proxy
 
-      this.isLoading = true;
-      axios.get(apiUrl)
-        .then((res) => {
-          this.shopData = res.data;
-          console.log('選擇城市的咖啡店數量', this.selectedOption, this.shopData.length);
-        })
-        .catch((error) => {
-          console.error('API 請求失敗!', error);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    sleep(ms) {
+      isLoading.value = true;
+
+      try {
+        const res = await axios.get(apiUrl);
+        shopData.value = res.data;
+        console.log('選擇城市的咖啡店數量', selectedOption.value, shopData.value.length);
+      } catch (error) {
+        console.error('API 請求失敗!', error);
+      } finally {
+        isLoading.value = false;
+      }
+    };
+
+    const sleep = function sleep(ms) {
       return new Promise((resolve) => {
         setTimeout(resolve, ms);
       });
-    },
-    async getDestinyShop() {
-      this.isDestiny = true;
-      this.isDestinyDone = false;
-      this.selectedShop = '';
+    };
+
+    const getDestinyShop = async function getDestinyShop() {
+      isDestiny.value = true;
+      isDestinyDone.value = false;
+      selectedShop.value = '';
 
       try {
-        await this.sleep(3000);
-        const randomIndex = Math.floor(Math.random() * this.shopData.length);
-        this.selectedShop = this.shopData[randomIndex];
-        this.isDestinyDone = true;
+        await sleep(3000);
+        const randomIndex = Math.floor(Math.random() * shopData.value.length);
+        selectedShop.value = shopData.value[randomIndex];
+        isDestinyDone.value = true;
       } catch (error) {
         console.error('抽籤過程發生錯誤:', error);
       } finally {
-        this.isDestiny = false;
+        isDestiny.value = false;
       }
-    },
+    };
+
+    watch(selectedOption, (newVal) => {
+      if (newVal) {
+        getData(); // 只在選擇城市後才觸發 API 請求
+      }
+    });
+
+    return {
+      selectedOption,
+      options,
+      selectedShop,
+      shopData,
+      isLoading,
+      isDestiny,
+      isDestinyDone,
+      getData,
+      getDestinyShop,
+    };
   },
 };
 </script>

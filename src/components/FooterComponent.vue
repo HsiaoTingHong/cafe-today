@@ -1,25 +1,29 @@
 <template>
   <footer class="footer">
-    <p>© {{ nowYear }} Made By Hsiao Ting Hong.</p>
+    <p>&copy; {{ nowYear }} Made By Hsiao Ting Hong.</p>
   </footer>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
+
 export default {
   name: 'FooterComponent',
-  data() {
-    return {
-      nowYear: '',
-    };
-  },
-  mounted() {
-    this.getNowYear();
-  },
-  methods: {
-    getNowYear() {
+  setup() {
+    const nowYear = ref('');
+
+    const getNowYear = function getNowYear() {
       const today = new Date();
-      this.nowYear = today.getFullYear();
-    },
+      nowYear.value = today.getFullYear();
+    };
+
+    onMounted(() => {
+      getNowYear();
+    });
+
+    return {
+      nowYear,
+    };
   },
 };
 </script>
