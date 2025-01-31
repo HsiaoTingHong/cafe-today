@@ -14,7 +14,7 @@
         </option>
       </select>
     </div>
-    <div class="table-border" v-if="isLoadingDown">
+    <div class="table-border" v-if="isDestinyDone">
       <table class="table-all">
         <tr>
           <th class="table-td border-b border-r w-25 text-nowrap">店家名稱</th>
@@ -92,9 +92,9 @@
     <button
       class="btn btn-start click-color-light"
       @click.prevent="getDestinyShop"
-      :disabled="isLoading || !selectedOption || !isGetData"
+      :disabled="isDestiny || !selectedOption"
     >
-      {{ isLoading ? "抽籤中..." : "點擊進行抽籤" }}
+      {{ isDestiny ? "抽籤中..." : "點擊進行抽籤" }}
     </button>
     <img class="image" src="../assets/teaAndBook.png" alt="teaAndBook" />
   </div>
@@ -130,9 +130,9 @@ export default {
       ],
       selectedShop: '',
       shopData: [],
-      isGetData: false,
-      isLoading: false,
-      isLoadingDown: false,
+      isLoading: false, // 是否正在取得 API 資料
+      isDestiny: false, // 是否正在抽籤
+      isDestinyDone: false, // 是否抽籤完畢
     };
   },
   watch: {
@@ -160,15 +160,17 @@ export default {
         ? `${PROXY_URL}` // 生產環境使用 CORS proxy
         : `/api/v1.2/cafes/${this.selectedOption}`; // 開發環境使用 proxy
 
+      this.isLoading = true;
       axios.get(apiUrl)
         .then((res) => {
           this.shopData = res.data;
           console.log('選擇城市的咖啡店數量', this.selectedOption, this.shopData.length);
-          this.isGetData = true;
         })
         .catch((error) => {
           console.error('API 請求失敗!', error);
-          this.isGetData = false;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
     sleep(ms) {
@@ -177,19 +179,19 @@ export default {
       });
     },
     async getDestinyShop() {
-      this.isLoading = true;
-      this.isLoadingDown = false;
+      this.isDestiny = true;
+      this.isDestinyDone = false;
       this.selectedShop = '';
 
       try {
         await this.sleep(3000);
         const randomIndex = Math.floor(Math.random() * this.shopData.length);
         this.selectedShop = this.shopData[randomIndex];
-        this.isLoadingDown = true;
+        this.isDestinyDone = true;
       } catch (error) {
         console.error('抽籤過程發生錯誤:', error);
       } finally {
-        this.isLoading = false;
+        this.isDestiny = false;
       }
     },
   },
