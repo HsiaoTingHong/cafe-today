@@ -1,7 +1,7 @@
 <template>
   <LoadingOverlay :active="isLoading" color="#79716b"></LoadingOverlay>
   <div class="screen-center">
-    <p class="slogan">今天要去哪間咖啡店呢？</p>
+    <p class="slogan">尋找你的咖啡靈魂</p>
     <div class="container">
       <label for="dropdown" class="label">選擇城市：</label>
       <select id="dropdown" v-model="selectedOption" class="select">

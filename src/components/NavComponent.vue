@@ -15,11 +15,14 @@
         <router-link to="/about" @click.prevent="closeMenu">
           <li class="nav-item click-color-light">關於</li>
         </router-link>
-        <router-link to="/list" @click.prevent="closeMenu">
-          <li class="nav-item click-color-light">列表</li>
-        </router-link>
         <router-link to="/destiny" @click.prevent="closeMenu">
-          <li class="nav-item click-color-light">抽籤</li>
+          <li class="nav-item click-color-light">今天喝哪家?</li>
+        </router-link>
+        <router-link to="/list" @click.prevent="closeMenu">
+          <li class="nav-item click-color-light">咖啡收藏</li>
+        </router-link>
+        <router-link to="/Customize" @click.prevent="closeMenu">
+          <li class="nav-item click-color-light">你的咖啡小日子</li>
         </router-link>
       </ul>
     </nav>
