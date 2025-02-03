@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkcafe_today"]=self["webpackChunkcafe_today"]||[]).push([[403],{2403:function(n,e,a){a.r(e),a.d(e,{default:function(){return i}});var t=a(6768);const c={class:"min-h-[82vh]"};function u(n,e,a,u,r,s){return(0,t.uX)(),(0,t.CE)("p",c,"巢狀路由-咖啡收藏-台中")}var r={name:"ListTaichungView"},s=a(1241);const f=(0,s.A)(r,[["render",u]]);var i=f}}]);
