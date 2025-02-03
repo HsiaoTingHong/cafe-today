@@ -22,6 +22,11 @@ const routes = [
     name: 'destiny',
     component: () => import('../views/DestinyView.vue'),
   },
+  {
+    // 若輸入不存在的路由時自動導回根目錄
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
+  },
 ];
 
 const router = createRouter({
