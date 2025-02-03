@@ -16,11 +16,32 @@ const routes = [
     path: '/list',
     name: 'list',
     component: () => import('../views/ListView.vue'),
+    children: [
+      {
+        path: 'listTaichung',
+        component: () => import('../views/ListTaichungView.vue'),
+      },
+    ],
   },
   {
     path: '/destiny',
     name: 'destiny',
     component: () => import('../views/DestinyView.vue'),
+  },
+  {
+    path: '/customize',
+    name: 'customize',
+    component: () => import('../views/CustomizeView.vue'),
+    children: [
+      {
+        path: 'customizeList',
+        component: () => import('../views/CustomizeListView.vue'),
+      },
+      {
+        path: 'customizeDestiny',
+        component: () => import('../views/CustomizeDestinyView.vue'),
+      },
+    ],
   },
   {
     // 若輸入不存在的路由時自動導回根目錄

@@ -1,11 +1,14 @@
 <template>
   <div class="min-h-[82vh]">
-    <p>咖啡收藏</p>
+    <p>你的咖啡小日子</p>
     <!-- 左側選單 -->
     <div class="">
       <div class="">
-        <router-link to="/list/listTaichung" href="#" class="">
-          咖啡收藏-台中
+        <router-link to="/customize/customizeList" href="#" class="">
+          你的私藏咖啡巡禮
+        </router-link>
+        <router-link to="/customize/customizeDestiny" href="#" class="">
+          下一站要去哪?
         </router-link>
       </div>
     </div>
@@ -18,6 +21,6 @@
 
 <script>
 export default {
-  name: 'ListView',
+  name: 'CustomizeView',
 };
 </script>
