@@ -16,5 +16,12 @@ module.exports = defineConfig({
         },
       },
     },
+    // 處理 chunk-vendors.js:249 WebSocket connection to 'ws://192.168.2.212:8080/ws' failed
+    host: 'localhost', // 接受來自所有網絡的請求，或者 '0.0.0.0' 用於網路訪問
+    port: 8080,
+    allowedHosts: 'all', // 允許所有外部訪問
+    client: {
+      webSocketURL: 'ws://localhost:8080/ws', // 或者 'ws://192.168.2.212:8080/ws'
+    },
   },
 });

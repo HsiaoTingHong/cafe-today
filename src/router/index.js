@@ -44,6 +44,11 @@ const routes = [
     ],
   },
   {
+    path: '/storeView',
+    name: 'storeView',
+    component: () => import('../views/StoreView.vue'),
+  },
+  {
     // 若輸入不存在的路由時自動導回根目錄
     path: '/:pathMatch(.*)*',
     redirect: '/',
