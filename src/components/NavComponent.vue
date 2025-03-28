@@ -13,16 +13,16 @@
       </div>
       <ul :class="['nav-list', { 'nav-active': isMenuOpen }]">
         <router-link to="/about" @click.prevent="closeMenu">
-          <li class="nav-item click-color-light">關於</li>
+          <li class="button click-color-light">關於</li>
         </router-link>
         <router-link to="/destiny" @click.prevent="closeMenu">
-          <li class="nav-item click-color-light">今天喝哪家?</li>
+          <li class="button click-color-light">今天喝哪家?</li>
         </router-link>
         <router-link to="/list" @click.prevent="closeMenu">
-          <li class="nav-item click-color-light">咖啡收藏</li>
+          <li class="button click-color-light">咖啡收藏</li>
         </router-link>
         <router-link to="/Customize" @click.prevent="closeMenu">
-          <li class="nav-item click-color-light">你的咖啡小日子</li>
+          <li class="button click-color-light">你的咖啡小日子</li>
         </router-link>
       </ul>
     </nav>
@@ -58,7 +58,7 @@ export default {
 }
 
 .nav {
-  @apply flex justify-between items-center py-1 relative;
+  @apply flex justify-between items-center py-1 relative z-50;
 }
 
 .logo {
@@ -98,13 +98,5 @@ export default {
     translate-y-0
     pointer-events-auto
     visible;
-}
-
-.nav-item {
-  @apply font-semibold
-    text-nowrap text-sm
-    px-3 py-1.5 mb-2 md:px-3 md:py-1.5 md:my-1.5 rounded-md
-    w-full md:w-auto
-    text-center;
 }
 </style>
