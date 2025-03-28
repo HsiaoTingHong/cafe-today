@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
+/* 整體寬度 */
 .wrapper {
     @apply max-w-[1000px] mx-auto px-[5%];
 }
 
+/* 點擊變色 */
 .click-color-dark {
     @apply text-stone-600
     hover:text-stone-300
@@ -17,4 +19,55 @@
     hover:bg-stone-300 hover:text-stone-600
     active:border-1 active:bg-white
     transition-all duration-500;
+}
+
+.click-color-mid {
+    @apply bg-stone-400 text-white
+    hover:bg-stone-300 hover:text-stone-600
+    active:border-1 active:bg-white
+    transition-all duration-500;
+}
+
+/* 按鈕不含顏色 */
+.button {
+    @apply font-semibold text-nowrap text-sm 
+    px-3 py-1.5 mb-2 md:px-3 md:py-1.5 md:my-1.5 
+    rounded-md w-full md:w-auto text-center;
+}
+
+/* 巢狀路由的 nav */
+.child-nav {
+    @apply flex gap-2 my-2;
+}
+
+/* 禁止點擊 */
+.not-allowed {
+    @apply bg-neutral-200 text-neutral-400 cursor-not-allowed;
+}
+
+/* 錯誤 */
+.error {
+    @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4;
+}
+
+/* 共用大標題 */
+.title {
+    @apply text-2xl font-bold text-stone-400 my-3;
+}
+
+/* 共用文字 */
+.dark-text {
+    @apply flex-grow font-semibold text-stone-700 mb-2;
+}
+
+.dark-text-xs {
+    @apply text-xs text-stone-700;
+}
+
+.light-bold-text-xl {
+    @apply text-xl font-bold text-stone-500;
+}
+
+.light-bold-text-xs {
+    @apply text-xs font-bold text-stone-500;
 }
