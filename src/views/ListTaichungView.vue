@@ -1,9 +1,10 @@
 <template>
-  <p class="min-h-[82vh]">巢狀路由-咖啡收藏-台中</p>
+  <!-- 巢狀路由-台中咖啡店列表 -->
+  <div class="min-h-[82vh]">
+    <CafeList />
+  </div>
 </template>
 
-<script>
-export default {
-  name: 'ListTaichungView',
-};
+<script setup>
+import CafeList from '../components/CafeList.vue';
 </script>

@@ -21,6 +21,10 @@ const routes = [
         path: 'listTaichung',
         component: () => import('../views/ListTaichungView.vue'),
       },
+      {
+        path: 'saveListView',
+        component: () => import('../views/SaveListView.vue'),
+      },
     ],
   },
   {
