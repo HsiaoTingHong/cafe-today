@@ -21,7 +21,7 @@
             :checked="selectedItems.length === items.length"
             @change="toggleSelectAll"
           />
-          <label for="select-all" class="dark-text">全選</label>
+          <label for="select-all" class="light-bold-text">全選</label>
         </div>
 
         <button
@@ -64,7 +64,7 @@
 
       <div class="save-count-bg">
         <div class="save-count-container">
-          <span class="dark-text">總共收藏咖啡店:</span>
+          <span class="light-bold-text">總共收藏咖啡店:</span>
           <span class="light-bold-text-xl"
             >共 {{ saveCount }} 間</span
           >

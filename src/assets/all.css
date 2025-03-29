@@ -68,6 +68,10 @@
     @apply text-xl font-bold text-stone-500;
 }
 
+.light-bold-text {
+    @apply font-bold text-stone-500;
+}
+
 .light-bold-text-xs {
     @apply text-xs font-bold text-stone-500;
 }
