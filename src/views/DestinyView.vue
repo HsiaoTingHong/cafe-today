@@ -14,77 +14,79 @@
         </option>
       </select>
     </div>
-    <div class="table-border" v-if="isDestinyDone">
-      <table class="table-all">
-        <tr>
-          <th class="table-td border-b border-r w-25 text-nowrap">店家名稱</th>
-          <td class="table-td border-b">
-            {{ selectedShop.name || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">地址</th>
-          <td class="table-td border-b">
-            {{ selectedShop.address || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">咖啡好喝</th>
-          <td class="table-td border-b">
-            {{ selectedShop.tasty || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">價格便宜</th>
-          <td class="table-td border-b">
-            {{ selectedShop.cheap || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">裝潢音樂</th>
-          <td class="table-td border-b">
-            {{ selectedShop.music || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">wifi穩定</th>
-          <td class="table-td border-b">
-            {{ selectedShop.wifi || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">插座多</th>
-          <td class="table-td border-b">
-            {{ selectedShop.socket || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">有無限時</th>
-          <td class="table-td border-b">
-            {{ selectedShop.limited_time || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-b border-r">營業時間</th>
-          <td class="table-td border-b">
-            {{ selectedShop.open_time || "無" }}
-          </td>
-        </tr>
-        <tr>
-          <th class="table-td border-r">官網連結</th>
-          <td class="table-td url-cell">
-            <a
-              :href="selectedShop.url"
-              target="_blank"
-              rel="noreferrer noopener"
-              class="url-link"
-            >
-              {{ selectedShop.url || "無" }}
-            </a>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <transition>
+      <div class="table-border" v-if="isDestinyDone">
+        <table class="table-all">
+          <tr>
+            <th class="table-td border-b border-r w-25 text-nowrap">店家名稱</th>
+            <td class="table-td border-b">
+              {{ selectedShop.name || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">地址</th>
+            <td class="table-td border-b">
+              {{ selectedShop.address || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">咖啡好喝</th>
+            <td class="table-td border-b">
+              {{ selectedShop.tasty || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">價格便宜</th>
+            <td class="table-td border-b">
+              {{ selectedShop.cheap || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">裝潢音樂</th>
+            <td class="table-td border-b">
+              {{ selectedShop.music || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">wifi穩定</th>
+            <td class="table-td border-b">
+              {{ selectedShop.wifi || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">插座多</th>
+            <td class="table-td border-b">
+              {{ selectedShop.socket || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">有無限時</th>
+            <td class="table-td border-b">
+              {{ selectedShop.limited_time || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r">營業時間</th>
+            <td class="table-td border-b">
+              {{ selectedShop.open_time || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-r">官網連結</th>
+            <td class="table-td url-cell">
+              <a
+                :href="selectedShop.url"
+                target="_blank"
+                rel="noreferrer noopener"
+                class="url-link"
+              >
+                {{ selectedShop.url || "無" }}
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </transition>
     <p class="text-xs text-stone-400">
       營業時間可能不同，出發前請至官方網站確認
     </p>

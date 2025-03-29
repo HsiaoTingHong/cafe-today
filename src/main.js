@@ -7,6 +7,7 @@ import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 import App from './App.vue';
 import router from './router';
 import './assets/all.css';
+import './assets/animate.css';
 import './assets/fonts.css';
 
 const pinia = createPinia();
