@@ -13,9 +13,15 @@ const routes = [
     component: () => import('../views/AboutView.vue'),
   },
   {
+    path: '/destiny',
+    name: 'destiny',
+    component: () => import('../views/DestinyView.vue'),
+  },
+  {
     path: '/list',
     name: 'list',
     component: () => import('../views/ListView.vue'),
+    redirect: '/list/listTaichung', // 預設到子路由
     children: [
       {
         path: 'listTaichung',
@@ -28,14 +34,10 @@ const routes = [
     ],
   },
   {
-    path: '/destiny',
-    name: 'destiny',
-    component: () => import('../views/DestinyView.vue'),
-  },
-  {
     path: '/customize',
     name: 'customize',
     component: () => import('../views/CustomizeView.vue'),
+    redirect: '/customize/customizeList', // 預設到子路由
     children: [
       {
         path: 'customizeList',
@@ -44,6 +46,10 @@ const routes = [
       {
         path: 'customizeDestiny',
         component: () => import('../views/CustomizeDestinyView.vue'),
+      },
+      {
+        path: 'customizeEdit',
+        component: () => import('../views/CustomizeEditView.vue'),
       },
     ],
   },

@@ -10,6 +10,9 @@
         <router-link to="/customize/customizeDestiny" href="#" class="">
           下一站要去哪?
         </router-link>
+        <router-link to="/customize/customizeEdit" href="#" class="">
+          編輯你的口袋名單
+        </router-link>
       </div>
     </div>
     <!-- 右側元件渲染位置 -->
