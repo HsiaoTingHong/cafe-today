@@ -1,0 +1,8 @@
+<!doctype html><html lang="zh-TW"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css"><link rel="icon" href="/cafe-today/favicon.ico"><title>cafe-today</title><script defer="defer" src="/cafe-today/js/chunk-vendors.20b35396.js"></script><script defer="defer" src="/cafe-today/js/app.a7d0205e.js"></script><link href="/cafe-today/css/app.01e2175c.css" rel="stylesheet"></head><script>// 404 頁面重新導向 index.html
+    (function(){
+      let redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();</script><body><noscript><strong>We're sorry but cafe-today doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div></body></html>

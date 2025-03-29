@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkcafe_today"]=self["webpackChunkcafe_today"]||[]).push([[73],{73:function(e,n,t){t.r(n),t.d(n,{default:function(){return i}});var a=t(6768);const u={class:"min-h-[82vh]"};function c(e,n,t,c,r,s){return(0,a.uX)(),(0,a.CE)("p",u,"巢狀路由-編輯你的口袋名單")}var r={name:"CustomizeEditView"},s=t(1241);const f=(0,s.A)(r,[["render",c]]);var i=f}}]);
