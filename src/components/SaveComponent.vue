@@ -50,7 +50,9 @@
             <label :for="`item-${item.id}`" class="light-bold-text-xs"></label>
             <div class="card-text">
               <h3 class="dark-text">{{ item.name }}</h3>
-              <p class="light-bold-text-xs">{{ item.address }}</p>
+              <p class="light-bold-text-xs">{{ item.city }}</p>
+              <p class="dark-text-xs">{{ item.address }}</p>
+              <p class="dark-text-xs">{{ item.open_time }}</p>
             </div>
             <button
               @click="removeItem(item.id)"
@@ -71,7 +73,7 @@
         </div>
       </div>
 
-      <div class="flex justify-end">
+      <div class="checkout">
         <button
           @click="checkout"
           class="button click-color-light"
@@ -142,12 +144,12 @@ const checkout = () => {
 }
 
 .card {
-  @apply bg-white rounded-lg shadow-md overflow-hidden p-3 mb-6
+  @apply bg-white rounded-lg shadow-md overflow-hidden px-3 mb-6
   border-1 border-stone-300;
 }
 
 .card-container {
-  @apply divide-y divide-stone-300;
+  @apply divide-y divide-stone-300 pr-2;
 }
 
 .card-text {
@@ -160,5 +162,9 @@ const checkout = () => {
 
 .save-count-container {
   @apply flex justify-between items-center;
+}
+
+.checkout {
+  @apply flex justify-end mb-10;
 }
 </style>

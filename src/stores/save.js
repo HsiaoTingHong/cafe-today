@@ -17,7 +17,9 @@ export const useSaveStore = defineStore('save', {
         this.items.push({
           id: cafe.id,
           name: cafe.name,
+          city: cafe.city,
           address: cafe.address,
+          open_time: cafe.open_time,
         });
       }
     },
