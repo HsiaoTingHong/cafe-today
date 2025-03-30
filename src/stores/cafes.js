@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import getCafesApiUrl from '@/services/cafenomadApi';
 
 export const useCafeStore = defineStore('cafes', {
   state: () => ({
@@ -15,12 +16,8 @@ export const useCafeStore = defineStore('cafes', {
         return;
       }
 
-      const API_URL = 'https://cafenomad.tw/api/v1.2/cafes/taichung';
-      const PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(API_URL)}`;
-
-      const apiUrl = process.env.NODE_ENV === 'production'
-        ? PROXY_URL // 生產環境使用 CORS proxy
-        : '/api/v1.2/cafes/taichung'; // 開發環境使用 proxy
+      const apiUrl = getCafesApiUrl('taichung');
+      console.log('apiUrl路徑', apiUrl);
 
       this.loading = true;
 

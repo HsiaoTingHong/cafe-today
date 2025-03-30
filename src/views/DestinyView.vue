@@ -105,6 +105,7 @@
 <script>
 import axios from 'axios';
 import { ref, reactive, watch } from 'vue';
+import getCafesApiUrl from '@/services/cafenomadApi';
 
 export default {
   name: 'DestinyView',
@@ -145,13 +146,8 @@ export default {
       // apiUrl：在 vue.config.js 設定 proxy 前綴 & 綁定選擇的城市
       // const apiUrl = `/api/v1.2/cafes/${this.selectedOption}`;
 
-      // 根據環境使用不同的 API URL
-      const API_URL = `https://cafenomad.tw/api/v1.2/cafes/${selectedOption.value}`;
-      const PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(API_URL)}`;
-
-      const apiUrl = process.env.NODE_ENV === 'production'
-        ? PROXY_URL // 生產環境使用 CORS proxy
-        : `/api/v1.2/cafes/${selectedOption.value}`; // 開發環境使用 proxy
+      const apiUrl = getCafesApiUrl(selectedOption.value);
+      console.log('apiUrl路徑', apiUrl);
 
       isLoading.value = true;
 
