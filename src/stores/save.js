@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useSaveStore = defineStore('save', {
+const useSaveStore = defineStore('save', {
   state: () => ({
     items: [],
     selectedItems: [],
@@ -54,3 +54,5 @@ export const useSaveStore = defineStore('save', {
     },
   },
 });
+
+export default useSaveStore;

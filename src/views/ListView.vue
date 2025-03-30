@@ -32,7 +32,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useSaveStore } from '../stores/save';
+import useSaveStore from '@/stores/save';
 
 const saveStore = useSaveStore();
 const saveCount = computed(() => saveStore.itemCount);

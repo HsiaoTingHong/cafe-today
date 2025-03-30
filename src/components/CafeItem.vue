@@ -22,7 +22,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useSaveStore } from '../stores/save';
+import useSaveStore from '@/stores/save';
 
 // 接收外層傳進來的 cafe 資料
 const props = defineProps({

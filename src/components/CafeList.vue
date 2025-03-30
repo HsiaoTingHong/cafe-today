@@ -44,7 +44,7 @@
 import {
   onBeforeMount, computed, watch, ref,
 } from 'vue';
-import { useCafeStore } from '../stores/cafes';
+import useCafeStore from '@/stores/cafes';
 import CafeItem from './CafeItem.vue';
 import PageComponent from './PageComponent.vue';
 

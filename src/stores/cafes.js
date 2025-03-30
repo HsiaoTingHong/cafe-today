@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import getCafesApiUrl from '@/services/cafenomadApi';
 
-export const useCafeStore = defineStore('cafes', {
+const useCafeStore = defineStore('cafes', {
   state: () => ({
     cafes: [],
     loading: false,
@@ -35,3 +35,5 @@ export const useCafeStore = defineStore('cafes', {
     },
   },
 });
+
+export default useCafeStore;
