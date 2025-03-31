@@ -87,7 +87,7 @@ const displayedPages = computed(() => {
   if (total <= 0) return [1];
 
   const pages = [];
-  const maxVisibleButtons = Math.min(5, total);
+  const maxVisibleButtons = Math.min(10, total);
 
   if (total <= maxVisibleButtons) {
     for (let i = 1; i <= total; i += 1) {
