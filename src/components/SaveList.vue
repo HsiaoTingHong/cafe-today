@@ -4,7 +4,7 @@
 
     <!-- 沒有資料 -->
     <div v-if="!items.length" class="no-data-bg">
-      <p class="no-data-text">您的收藏清單是空的</p>
+      <p class="no-data-text">你的收藏清單是空的</p>
       <router-link to="/list/listTaichung" href="#" class="button click-color-mid">
         瀏覽咖啡店列表
       </router-link>
@@ -33,36 +33,12 @@
         </button>
       </div>
 
-      <div class="card">
-        <div class="card-container">
-          <div
-            v-for="item in items"
-            :key="item.id"
-            class="flex items-center"
-          >
-            <input
-              type="checkbox"
-              :id="`item-${item.id}`"
-              class="checkbox"
-              :checked="isSelected(item.id)"
-              @change="toggleSelect(item.id)"
-            />
-            <label :for="`item-${item.id}`" class="light-bold-text-xs"></label>
-            <div class="card-text">
-              <h3 class="dark-text">{{ item.name }}</h3>
-              <p class="light-bold-text-xs">{{ item.city }}</p>
-              <p class="dark-text-xs">{{ item.address }}</p>
-              <p class="dark-text-xs">{{ item.open_time }}</p>
-            </div>
-            <button
-              @click="removeItem(item.id)"
-              class="button click-color-mid"
-            >
-              刪除
-            </button>
-          </div>
-        </div>
-      </div>
+      <SaveItem
+        :items="items"
+        :is-selected="isSelected"
+        :toggle-select="toggleSelect"
+        :remove-item="removeItem"
+      />
 
       <div class="save-count-bg">
         <div class="save-count-container">
@@ -88,6 +64,7 @@
 <script setup>
 import { computed } from 'vue';
 import useSaveStore from '@/stores/save';
+import SaveItem from './SaveItem.vue';
 
 const saveStore = useSaveStore();
 
@@ -135,25 +112,8 @@ const checkout = () => {
   @apply text-gray-600 mb-4;
 }
 
-.checkbox {
-  @apply h-5 w-5 text-stone-600 mx-3;
-}
-
 .card-bg {
   @apply mb-4 flex justify-between items-center;
-}
-
-.card {
-  @apply bg-white rounded-lg shadow-md overflow-hidden px-3 mb-6
-  border-1 border-stone-300;
-}
-
-.card-container {
-  @apply divide-y divide-stone-300 pr-2;
-}
-
-.card-text {
-  @apply ml-3 my-3 flex-grow;
 }
 
 .save-count-bg {

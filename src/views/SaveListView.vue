@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import SaveComponent from '../components/SaveComponent.vue';
+import SaveComponent from '../components/SaveList.vue';
 </script>
