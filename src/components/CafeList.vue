@@ -54,13 +54,13 @@ const cafeStore = useCafeStore();
 const loading = computed(() => cafeStore.loading);
 const error = computed(() => cafeStore.error);
 const allCafes = computed(() => cafeStore.cafes || []);
-const totalCafesNumber = computed(() => allCafes.value.length);
 
 // 分頁相關
+const totalCafesNumber = computed(() => allCafes.value.length);
 const currentPage = ref(1);
 const itemsPerPage = ref(24);
 
-// 使用 computed 負責計算當前頁面的數據
+// 使用 computed 負責計算當前頁面顯示的項目
 // computed 只讀不寫，不能改變資料
 const currentPageCafes = computed(() => {
   if (totalCafesNumber.value === 0) return [];
