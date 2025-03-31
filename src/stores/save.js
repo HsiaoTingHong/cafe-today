@@ -11,6 +11,17 @@ const useSaveStore = defineStore('save', {
   },
   actions: {
     addToSave(cafe) {
+      // 檢查 localStorage 是否已有資料，有的話則不能送出資料
+      const savedCafes = JSON.parse(localStorage.getItem('savedCafes') || '[]');
+      const isAlreadySavedInStorage = savedCafes.some((savedCafe) => savedCafe.id === cafe.id);
+
+      if (isAlreadySavedInStorage) {
+        /* eslint-disable no-alert */
+        alert('此咖啡店已在你的私藏巡禮中！');
+        /* eslint-disable no-alert */
+        return;
+      }
+
       // 檢查咖啡店是否已在準備收藏清單中
       const existingItem = this.items.find((item) => item.id === cafe.id);
       if (!existingItem) {
@@ -47,9 +58,17 @@ const useSaveStore = defineStore('save', {
       this.selectedItems = [];
     },
     checkout() {
+      // 這邊要把 this.items 資料加入 localStorage 的 savedCafes中，在"你的私藏咖啡巡禮"拿出來
+      // 在addToSave時已經檢查過重複，這裡不需要再檢查
+      let savedCafes = JSON.parse(localStorage.getItem('savedCafes') || '[]');
+      savedCafes = [...savedCafes, ...this.items];
+      localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
+
       /* eslint-disable no-alert */
       alert(`收藏成功！總共收藏 ${this.itemCount} 間咖啡店`);
       /* eslint-disable no-alert */
+
+      // 儲存到 localStorage 後再清空
       this.clearSave();
     },
   },
