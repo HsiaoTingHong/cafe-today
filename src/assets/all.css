@@ -35,9 +35,18 @@
     rounded-md md:w-auto text-center;
 }
 
+/* checkbox */
+.checkbox {
+    @apply h-5 w-5 text-stone-600 mx-3;
+}
+
 /* 巢狀路由的 nav */
 .child-nav {
     @apply flex gap-2 my-2;
+}
+
+.child-nav-col {
+    @apply flex flex-col mr-6;
 }
 
 /* 禁止點擊 */
@@ -74,4 +83,13 @@
 
 .light-bold-text-xs {
     @apply text-xs font-bold text-stone-500;
+}
+
+/* no-data */
+.no-data-bg {
+    @apply bg-gray-100 p-8 rounded-lg text-center;
+}
+
+.no-data-text {
+    @apply text-gray-600 mb-4;
 }
