@@ -1,1 +1,0 @@
-"use strict";(self["webpackChunkcafe_today"]=self["webpackChunkcafe_today"]||[]).push([[81],{3081:function(e,n,t){function r(e,n){return" 註冊 "}t.r(n),t.d(n,{default:function(){return f}});var u=t(1241);const a={},c=(0,u.A)(a,[["render",r]]);var f=c}}]);
