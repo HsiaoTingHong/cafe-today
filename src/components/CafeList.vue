@@ -15,13 +15,13 @@
       <!-- API 資料取得完成 -->
       <div v-else>
         <!-- 沒有資料時顯示提示 -->
-        <div v-if="totalCafesNumber === 0" class="no-data">沒有找到咖啡店資料</div>
+        <div v-if="totalItemsNumber === 0" class="no-data">沒有找到咖啡店資料</div>
 
         <!-- 有資料時顯示卡片和分頁 -->
         <div v-else>
           <div class="cafe-item-card">
             <CafeItem
-              v-for="cafe in currentPageCafes"
+              v-for="cafe in currentPageItems"
               :key="cafe.id"
               :cafe="cafe"
             />
@@ -30,7 +30,7 @@
           <!-- 分頁按鈕 -->
           <PageComponent
             :current-page="currentPage"
-            :total-items="totalCafesNumber"
+            :total-items="totalItemsNumber"
             :items-per-page="itemsPerPage"
             @update:page="getPageChange"
           />
@@ -41,10 +41,9 @@
 </template>
 
 <script setup>
-import {
-  onBeforeMount, computed, watch, ref,
-} from 'vue';
+import { onBeforeMount, computed } from 'vue';
 import useCafeStore from '@/stores/cafes';
+import usePagination from '@/functions/usePagination';
 import CafeItem from './CafeItem.vue';
 import PageComponent from './PageComponent.vue';
 
@@ -55,44 +54,20 @@ const loading = computed(() => cafeStore.loading);
 const error = computed(() => cafeStore.error);
 const allCafes = computed(() => cafeStore.cafes || []);
 
-// 分頁相關
-const totalCafesNumber = computed(() => allCafes.value.length);
-const currentPage = ref(1);
-const itemsPerPage = ref(24);
-
-// 使用 computed 負責計算當前頁面顯示的項目
-// computed 只讀不寫，不能改變資料
-const currentPageCafes = computed(() => {
-  if (totalCafesNumber.value === 0) return [];
-
-  const startIndex = (currentPage.value - 1) * itemsPerPage.value;
-  const endIndex = Math.min(startIndex + itemsPerPage.value, totalCafesNumber.value);
-
-  return allCafes.value.slice(startIndex, endIndex);
-});
-
-// 使用 watch 來處理 currentPage
-watch(totalCafesNumber, (newTotal) => {
-  if (newTotal > 0) {
-    const startIndex = (currentPage.value - 1) * itemsPerPage.value;
-    if (startIndex >= newTotal) {
-      currentPage.value = 1; // 當總數變化時，重置頁碼
-    }
-  }
-});
-
-// 處理切換頁面事件
-const getPageChange = (page) => {
-  currentPage.value = page;
-  // 換頁時滾動到頁面頂部
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+// 使用 usePagination 邏輯
+const {
+  totalItemsNumber,
+  currentPage,
+  itemsPerPage,
+  currentPageItems,
+  getPageChange,
+} = usePagination(allCafes, 24);
 
 // 取得 API
 onBeforeMount(async () => {
   try {
     await cafeStore.getCafes();
-    console.log('Cafes資料數量:', totalCafesNumber.value);
+    console.log('Cafes資料數量:', totalItemsNumber.value);
   } catch (e) {
     console.error('取得咖啡店資料時發生錯誤:', e);
   }

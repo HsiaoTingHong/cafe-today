@@ -30,11 +30,10 @@
 </template>
 
 <script setup>
-import {
-  ref, onMounted, computed, watch,
-} from 'vue';
+import { ref, onMounted } from 'vue';
 import FavoriteItem from '@/components/FavoriteItem.vue';
 import PageComponent from '@/components/PageComponent.vue';
+import usePagination from '@/functions/usePagination';
 
 // localStorage 資料
 const items = ref([]);
@@ -43,37 +42,14 @@ onMounted(() => {
   items.value = JSON.parse(localStorage.getItem('savedCafes') || '[]').sort((a, b) => a.id.localeCompare(b.id));
 });
 
-// 分頁相關
-const totalItemsNumber = computed(() => items.value.length);
-const currentPage = ref(1);
-const itemsPerPage = ref(5);
-
-// 計算當前頁面顯示的項目
-const currentPageItems = computed(() => {
-  if (totalItemsNumber.value === 0) return [];
-
-  const startIndex = (currentPage.value - 1) * itemsPerPage.value;
-  const endIndex = Math.min(startIndex + itemsPerPage.value, totalItemsNumber.value);
-
-  return items.value.slice(startIndex, endIndex);
-});
-
-// 使用 watch 來處理 currentPage
-watch(totalItemsNumber, (newTotal) => {
-  if (newTotal > 0) {
-    const startIndex = (currentPage.value - 1) * itemsPerPage.value;
-    if (startIndex >= newTotal) {
-      currentPage.value = 1; // 當總數變化時，重置頁碼
-    }
-  }
-});
-
-// 處理切換頁面事件
-const getPageChange = (page) => {
-  currentPage.value = page;
-  // 換頁時滾動到頁面頂部
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+// 使用 usePagination 邏輯
+const {
+  totalItemsNumber,
+  currentPage,
+  itemsPerPage,
+  currentPageItems,
+  getPageChange,
+} = usePagination(items, 5);
 
 const removeItem = (id) => {
   let savedCafes = JSON.parse(localStorage.getItem('savedCafes') || '[]');
