@@ -1,5 +1,6 @@
 <template>
-  <p class="min-h-[82vh]">巢狀路由-編輯你的口袋名單</p>
+  <!-- 巢狀路由-編輯你的口袋名單 -->
+  <h2 class="title min-h-[82vh]">編輯你的口袋名單</h2>
 </template>
 
 <script>
