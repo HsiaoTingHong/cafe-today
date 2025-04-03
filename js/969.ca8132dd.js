@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkcafe_today"]=self["webpackChunkcafe_today"]||[]).push([[969],{4969:function(e,n,t){t.r(n),t.d(n,{default:function(){return f}});var a=t(6768);const u={class:"title min-h-[82vh]"};function c(e,n,t,c,r,s){return(0,a.uX)(),(0,a.CE)("h2",u,"下一站要去哪?")}var r={name:"CustomizeDestinyView"},s=t(1241);const i=(0,s.A)(r,[["render",c]]);var f=i}}]);
