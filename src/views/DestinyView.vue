@@ -106,6 +106,7 @@
 import axios from 'axios';
 import { ref, reactive, watch } from 'vue';
 import getCafesApiUrl from '@/services/cafenomadApi';
+import useDestinyShop from '@/functions/useDestinyShop';
 
 export default {
   name: 'DestinyView',
@@ -131,11 +132,8 @@ export default {
       { value: 'taitung', label: '台東' },
       { value: 'penghu', label: '澎湖' },
     ]);
-    const selectedShop = ref('');
     const shopData = ref([]);
     const isLoading = ref(false); // 是否正在取得 API 資料
-    const isDestiny = ref(false); // 是否正在抽籤
-    const isDestinyDone = ref(false); // 是否抽籤完畢
 
     const getData = async function getData() {
       if (!selectedOption.value) {
@@ -162,28 +160,13 @@ export default {
       }
     };
 
-    const sleep = function sleep(ms) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-    };
-
-    const getDestinyShop = async function getDestinyShop() {
-      isDestiny.value = true;
-      isDestinyDone.value = false;
-      selectedShop.value = '';
-
-      try {
-        await sleep(3000);
-        const randomIndex = Math.floor(Math.random() * shopData.value.length);
-        selectedShop.value = shopData.value[randomIndex];
-        isDestinyDone.value = true;
-      } catch (error) {
-        console.error('抽籤過程發生錯誤:', error);
-      } finally {
-        isDestiny.value = false;
-      }
-    };
+    // 使用 useDestinyShop 抽籤邏輯
+    const {
+      selectedShop,
+      isDestiny,
+      isDestinyDone,
+      getDestinyShop,
+    } = useDestinyShop(shopData);
 
     watch(selectedOption, (newVal) => {
       if (newVal) {
@@ -214,7 +197,7 @@ export default {
 }
 
 .slogan {
-  @apply text-stone-400 font-semibold text-xl;
+  @apply text-stone-400 font-semibold text-xl mt-4;
 }
 
 .container {
