@@ -4,7 +4,6 @@
   <div class="screen-center">
     <transition>
       <div class="table-border" v-if="isDestinyDone">
-      <!-- <div class="table-border"> -->
         <table
           class="table-all"
           :id="`item-${selectedShop.id}`">
@@ -53,9 +52,9 @@ export default {
   name: 'CustomizeDestinyView',
   setup() {
     // localStorage 資料
-    const shopData = ref([]);
+    const savedCafes = ref([]);
 
-    shopData.value = JSON.parse(localStorage.getItem('savedCafes') || '[]').sort((a, b) => a.id.localeCompare(b.id));
+    savedCafes.value = JSON.parse(localStorage.getItem('savedCafes') || '[]');
 
     // 使用 useDestinyShop 抽籤邏輯
     const {
@@ -63,11 +62,11 @@ export default {
       isDestiny,
       isDestinyDone,
       getDestinyShop,
-    } = useDestinyShop(shopData);
+    } = useDestinyShop(savedCafes);
 
     return {
       selectedShop,
-      shopData,
+      savedCafes,
       isDestiny,
       isDestinyDone,
       getDestinyShop,
