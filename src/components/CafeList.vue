@@ -1,6 +1,21 @@
 <template>
   <div>
     <h2 class="title">台中咖啡店列表</h2>
+
+    <!-- 搜尋 -->
+    <div class="input-label light-bold-text">
+      <label for="search">搜尋店名</label>
+      <input
+        type="text"
+        class="input-text"
+        id="search"
+        v-model="cacheSearch"
+        placeholder="search"
+        @input="handleSearch"
+      >
+    </div>
+
+    <!-- 列表 -->
     <transition>
       <!-- API loading 中 -->
       <div v-if="loading">
@@ -41,7 +56,9 @@
 </template>
 
 <script setup>
-import { onBeforeMount, computed } from 'vue';
+import {
+  onBeforeMount, computed, ref, watch,
+} from 'vue';
 import useCafeStore from '@/stores/cafes';
 import usePagination from '@/functions/usePagination';
 import CafeItem from './CafeItem.vue';
@@ -54,6 +71,17 @@ const loading = computed(() => cafeStore.loading);
 const error = computed(() => cafeStore.error);
 const allCafes = computed(() => cafeStore.cafes || []);
 
+// 搜尋相關
+const cacheSearch = ref('');
+const filteredCafes = computed(() => {
+  if (!cacheSearch.value.trim()) {
+    return allCafes.value;
+  }
+
+  const searchTerm = cacheSearch.value.toLowerCase().trim();
+  return allCafes.value.filter((cafe) => cafe.name.toLowerCase().includes(searchTerm));
+});
+
 // 使用 usePagination 邏輯
 const {
   totalItemsNumber,
@@ -61,7 +89,18 @@ const {
   itemsPerPage,
   currentPageItems,
   getPageChange,
-} = usePagination(allCafes, 24);
+  resetPage,
+} = usePagination(filteredCafes, 24);
+
+// 當搜尋條件改變時，重置分頁
+const handleSearch = () => {
+  resetPage();
+};
+
+// 監聽搜尋條件變更
+watch(cacheSearch, () => {
+  handleSearch();
+});
 
 // 取得 API
 onBeforeMount(async () => {
@@ -83,5 +122,14 @@ onBeforeMount(async () => {
 
 .no-data {
   @apply text-gray-500 font-medium text-center my-8;
+}
+
+.input-label {
+  @apply flex justify-center items-center
+  text-nowrap mb-5;
+}
+
+.input-text {
+  @apply w-full ml-4 p-2 rounded-lg border-1 border-stone-300;
 }
 </style>

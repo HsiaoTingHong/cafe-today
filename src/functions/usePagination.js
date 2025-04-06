@@ -34,11 +34,17 @@ export default function usePagination(items, defaultItemsPerPage = 5) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // 重置分頁
+  const resetPage = () => {
+    currentPage.value = 1;
+  };
+
   return {
     totalItemsNumber,
     currentPage,
     itemsPerPage,
     currentPageItems,
     getPageChange,
+    resetPage,
   };
 }
