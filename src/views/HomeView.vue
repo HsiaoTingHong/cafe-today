@@ -4,7 +4,7 @@
       Which cafe are you going to today ?
     </p>
     <p class="text-stone-700 text-sm">
-      {{ name }}<br />
+      <!-- {{ name }}<br /> -->
       咖啡店太多間導致選擇障礙嗎<br />
       那就讓我們幫你決定吧
     </p>
