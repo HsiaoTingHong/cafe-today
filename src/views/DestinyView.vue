@@ -107,6 +107,14 @@
     </button>
     <img class="image" src="../assets/teaAndBook.png" alt="teaAndBook" />
   </div>
+
+  <!-- ModalBox -->
+  <ModalBox
+    :visible="showModal"
+    :message="modalMessage"
+    :type="modalType"
+    @close="closeModal"
+  />
 </template>
 
 <script>
@@ -114,9 +122,14 @@ import axios from 'axios';
 import { ref, reactive, watch } from 'vue';
 import getCafesApiUrl from '@/services/cafenomadApi';
 import useDestinyShop from '@/functions/useDestinyShop';
+import ModalBox from '@/components/ModalBox.vue';
+import useModal from '@/functions/useModal';
 
 export default {
   name: 'DestinyView',
+  components: {
+    ModalBox,
+  },
   setup() {
     const selectedOption = ref('');
     const options = reactive([
@@ -142,9 +155,18 @@ export default {
     const shopData = ref([]);
     const isLoading = ref(false); // 是否正在取得 API 資料
 
+    // 使用 useModal 邏輯
+    const {
+      showModal,
+      modalMessage,
+      modalType,
+      openModal,
+      closeModal,
+    } = useModal();
+
     const getData = async function getData() {
       if (!selectedOption.value) {
-        console.warn('請選擇一個城市!');
+        openModal('請選擇一個城市!', 'error');
         return;
       }
 
@@ -162,6 +184,7 @@ export default {
         console.log('選擇城市的咖啡店數量', selectedOption.value, shopData.value.length);
       } catch (error) {
         console.error('API 請求失敗!', error);
+        openModal('取得資料失敗', 'error');
       } finally {
         isLoading.value = false;
       }
@@ -191,6 +214,10 @@ export default {
       isDestinyDone,
       getData,
       getDestinyShop,
+      showModal,
+      closeModal,
+      modalMessage,
+      modalType,
     };
   },
 };
