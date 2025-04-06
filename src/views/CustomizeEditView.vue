@@ -4,7 +4,7 @@
   <div class="screen-center">
     <h2 class="light-bold-text-xl">請輸入你的口袋名單</h2>
     <form @submit.prevent="submitForm">
-      <div class="form-group light-bold-text">
+      <div class="form-group input-label light-bold-text">
         <label for="CustomizeCafeName">店家<br />名稱</label>
         <input
           type="text"
@@ -15,7 +15,7 @@
         >
       </div>
 
-      <div class="form-group light-bold-text">
+      <div class="form-group input-label light-bold-text">
         <label for="CustomizeCafeCity">城市</label>
         <input
           type="text"
@@ -26,7 +26,7 @@
         >
       </div>
 
-      <div class="form-group light-bold-text">
+      <div class="form-group input-label light-bold-text">
         <label for="CustomizeCafeAddress">地址</label>
         <input
           type="text"
@@ -37,7 +37,7 @@
         >
       </div>
 
-      <div class="form-group light-bold-text">
+      <div class="form-group input-label light-bold-text">
         <label for="CustomizeCafeHours">營業<br />時間</label>
         <textarea
           id="CustomizeCafeHours"
@@ -151,6 +151,11 @@ export default {
 
 .form-group {
   @apply flex text-nowrap text-left font-bold mb-4;
+}
+
+.input-label {
+  @apply flex justify-center items-center
+  text-nowrap mb-5;
 }
 
 .input-text {
