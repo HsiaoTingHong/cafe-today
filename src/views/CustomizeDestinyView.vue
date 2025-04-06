@@ -22,7 +22,14 @@
           <tr>
             <th class="table-td border-b border-r">地址</th>
             <td class="table-td border-b">
-              {{ selectedShop.address || "無" }}
+              <a
+                :href="`https://www.google.com/maps/search/${encodeURIComponent(selectedShop.name)}`"
+                target="_blank" rel="noreferrer noopener"
+                class="underline"
+                >
+                {{ selectedShop.address || "無" }}<br />
+                (前往 Google 地圖)
+              </a>
             </td>
           </tr>
           <tr>
