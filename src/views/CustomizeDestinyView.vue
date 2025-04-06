@@ -44,15 +44,20 @@
     <button
       class="btn btn-start click-color-light"
       @click.prevent="getDestinyShop"
-      :disabled="isDestiny"
+      :disabled="isDestiny || isSavedCafesNoData"
     >
-      {{ isDestiny ? "抽籤中..." : "點擊進行抽籤" }}
+      <span v-if="isSavedCafesNoData">
+        {{ isSavedCafesNoData ? "你的私藏咖啡巡禮清單是空的" : "點擊進行抽籤" }}
+      </span>
+      <span v-else>
+        {{ isDestiny ? "抽籤中..." : "點擊進行抽籤" }}
+      </span>
     </button>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import useDestinyShop from '@/functions/useDestinyShop';
 
 export default {
@@ -62,6 +67,14 @@ export default {
     const savedCafes = ref([]);
 
     savedCafes.value = JSON.parse(localStorage.getItem('savedCafes') || '[]');
+
+    // 檢查 savedCafes 是否為空，來禁用按鈕
+    const isSavedCafesNoData = ref(savedCafes.value.length === 0);
+
+    // 當 savedCafes 資料改變時更新按鈕狀態
+    watchEffect(() => {
+      isSavedCafesNoData.value = savedCafes.value.length === 0;
+    });
 
     // 使用 useDestinyShop 抽籤邏輯
     const {
@@ -74,6 +87,7 @@ export default {
     return {
       selectedShop,
       savedCafes,
+      isSavedCafesNoData,
       isDestiny,
       isDestinyDone,
       getDestinyShop,
@@ -107,7 +121,7 @@ export default {
 }
 
 .btn {
-  @apply flex w-32 items-center justify-center rounded-lg
+  @apply flex w-45 items-center justify-center rounded-lg
   px-4 py-3 border-1 text-sm font-medium;
 }
 
