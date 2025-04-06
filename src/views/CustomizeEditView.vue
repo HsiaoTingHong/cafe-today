@@ -124,6 +124,9 @@ export default {
       CustomizeCafe.city = '';
       CustomizeCafe.address = '';
       CustomizeCafe.open_time = '';
+
+      // 生成新 UUID
+      CustomizeCafe.id = uuidv4(); // 生成新的 UUID
     };
 
     return {
