@@ -27,6 +27,14 @@
       />
     </div>
   </div>
+
+  <!-- ModalBox -->
+  <ModalBox
+    :visible="showModal"
+    :message="modalMessage"
+    :type="modalType"
+    @close="closeModal"
+  />
 </template>
 
 <script setup>
@@ -34,6 +42,8 @@ import { ref, onMounted } from 'vue';
 import FavoriteItem from '@/components/FavoriteItem.vue';
 import PageComponent from '@/components/PageComponent.vue';
 import usePagination from '@/functions/usePagination';
+import ModalBox from '@/components/ModalBox.vue';
+import useModal from '@/functions/useModal';
 
 // localStorage 資料
 const items = ref([]);
@@ -41,6 +51,15 @@ const items = ref([]);
 onMounted(() => {
   items.value = JSON.parse(localStorage.getItem('savedCafes') || '[]').sort((a, b) => a.id.localeCompare(b.id));
 });
+
+// 使用 useModal 邏輯
+const {
+  showModal,
+  modalMessage,
+  modalType,
+  openModal,
+  closeModal,
+} = useModal();
 
 // 使用 usePagination 邏輯
 const {
@@ -54,18 +73,13 @@ const {
 const removeItem = (id) => {
   let savedCafes = JSON.parse(localStorage.getItem('savedCafes') || '[]');
 
-  // 過濾掉要刪除的咖啡店
+  // 過濾掉要刪除的咖啡店，將更新後的資料寫回 localStorage
   savedCafes = savedCafes.filter((cafe) => cafe.id !== id);
-
-  // 將更新後的資料寫回 localStorage
   localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
 
   // 更新畫面上的資料
   items.value = savedCafes;
-
-  /* eslint-disable no-alert */
-  alert('已從你的私藏巡禮刪除！');
-  /* eslint-disable no-alert */
+  openModal('已從你的私藏巡禮刪除！', 'success');
 };
 </script>
 

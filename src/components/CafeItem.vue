@@ -18,11 +18,30 @@
       </button>
     </div>
   </div>
+
+  <!-- ModalBox -->
+  <ModalBox
+    :visible="showModal"
+    :message="modalMessage"
+    :type="modalType"
+    @close="closeModal"
+  />
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import useSaveStore from '@/stores/save';
+import ModalBox from '@/components/ModalBox.vue';
+import useModal from '@/functions/useModal';
+
+// 使用 useModal 邏輯
+const {
+  showModal,
+  modalMessage,
+  modalType,
+  openModal,
+  closeModal,
+} = useModal();
 
 // 接收外層傳進來的 cafe 資料
 const props = defineProps({
@@ -50,7 +69,13 @@ const statusCafe = computed(() => {
 // 加入收藏
 const addToSave = () => {
   if (isAvailable.value) {
-    saveStore.addToSave(props.cafe);
+    const addToSaveResult = saveStore.addToSave(props.cafe);
+
+    if (addToSaveResult) {
+      openModal('加入待收藏列表！', 'success');
+    } else {
+      openModal('此咖啡店已在你的私藏巡禮中！', 'error');
+    }
   }
 };
 </script>

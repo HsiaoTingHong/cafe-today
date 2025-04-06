@@ -59,12 +59,31 @@
       </div>
     </div>
   </div>
+
+  <!-- ModalBox -->
+  <ModalBox
+    :visible="showModal"
+    :message="modalMessage"
+    :type="modalType"
+    @close="closeModal"
+  />
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import useSaveStore from '@/stores/save';
+import ModalBox from '@/components/ModalBox.vue';
+import useModal from '@/functions/useModal';
 import SaveItem from './SaveItem.vue';
+
+// 使用 useModal 邏輯
+const {
+  showModal,
+  modalMessage,
+  modalType,
+  openModal,
+  closeModal,
+} = useModal();
 
 const saveStore = useSaveStore();
 
@@ -98,6 +117,10 @@ const removeSelected = () => {
 
 const checkout = () => {
   saveStore.checkout();
+
+  // 收藏成功後顯示 ModalBox
+  openModal(`收藏成功！總共收藏了 ${saveCount.value} 間咖啡店`, 'success');
+  saveStore.clearSave();
 };
 </script>
 

@@ -16,10 +16,7 @@ const useSaveStore = defineStore('save', {
       const isAlreadySavedInStorage = savedCafes.some((savedCafe) => savedCafe.id === cafe.id);
 
       if (isAlreadySavedInStorage) {
-        /* eslint-disable no-alert */
-        alert('此咖啡店已在你的私藏巡禮中！');
-        /* eslint-disable no-alert */
-        return;
+        return false; // 回傳 false
       }
 
       // 檢查咖啡店是否已在準備收藏清單中
@@ -33,6 +30,9 @@ const useSaveStore = defineStore('save', {
           open_time: cafe.open_time,
         });
       }
+
+      // addToSave 成功的話回傳 true
+      return true;
     },
     removeFromSave(cafeId) {
       this.items = this.items.filter((item) => item.id !== cafeId);
@@ -63,13 +63,6 @@ const useSaveStore = defineStore('save', {
       let savedCafes = JSON.parse(localStorage.getItem('savedCafes') || '[]');
       savedCafes = [...savedCafes, ...this.items];
       localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
-
-      /* eslint-disable no-alert */
-      alert(`收藏成功！總共收藏 ${this.itemCount} 間咖啡店`);
-      /* eslint-disable no-alert */
-
-      // 儲存到 localStorage 後再清空
-      this.clearSave();
     },
   },
 });

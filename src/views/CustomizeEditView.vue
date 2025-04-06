@@ -51,14 +51,27 @@
       <button type="submit" class="button click-color-light">加入你的私藏咖啡巡禮</button>
     </form>
   </div>
+
+  <!-- ModalBox -->
+  <ModalBox
+    :visible="showModal"
+    :message="modalMessage"
+    :type="modalType"
+    @close="closeModal"
+  />
 </template>
 
 <script>
 import { reactive } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
+import ModalBox from '@/components/ModalBox.vue';
+import useModal from '@/functions/useModal';
 
 export default {
   name: 'CustomizeEditView',
+  components: {
+    ModalBox,
+  },
   setup() {
     const CustomizeCafe = reactive({
       id: uuidv4(),
@@ -68,6 +81,15 @@ export default {
       open_time: '',
     });
 
+    // 使用 useModal 邏輯
+    const {
+      showModal,
+      modalMessage,
+      modalType,
+      openModal,
+      closeModal,
+    } = useModal();
+
     // 送出表單
     const submitForm = () => {
       // 驗證表單
@@ -75,9 +97,7 @@ export default {
           || !CustomizeCafe.city
           || !CustomizeCafe.address
           || !CustomizeCafe.open_time) {
-        /* eslint-disable no-alert */
-        alert('請填寫所有必填欄位');
-        /* eslint-disable no-alert */
+        openModal('請填寫所有必填欄位', 'error');
         return;
       }
 
@@ -90,19 +110,14 @@ export default {
       );
 
       if (isAlreadySavedInStorage) {
-        /* eslint-disable no-alert */
-        alert('此咖啡店已在你的私藏巡禮中！');
-        /* eslint-disable no-alert */
+        openModal('此咖啡店已在你的私藏巡禮中！', 'error');
         return;
       }
 
       // 儲存到 localStorage
       savedCafes.push({ ...CustomizeCafe });
       localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
-
-      /* eslint-disable no-alert */
-      alert('收藏成功！');
-      /* eslint-disable no-alert */
+      openModal('收藏成功！', 'success');
 
       // 儲存後清空表單
       CustomizeCafe.name = '';
@@ -114,6 +129,10 @@ export default {
     return {
       CustomizeCafe,
       submitForm,
+      showModal,
+      closeModal,
+      modalMessage,
+      modalType,
     };
   },
 };
