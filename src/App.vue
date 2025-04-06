@@ -1,9 +1,17 @@
 <template>
-  <NavComponent></NavComponent>
-  <div class="wrapper font-mono">
-    <router-view />
+  <div class="min-h-screen flex flex-col relative overflow-hidden">
+    <NavComponent></NavComponent>
+
+    <div class="flex-1 relative">
+      <div class="wrapper font-mono relative">
+        <transition name="slide">
+          <router-view />
+        </transition>
+      </div>
+    </div>
+
+    <FooterComponent></FooterComponent>
   </div>
-  <FooterComponent></FooterComponent>
 </template>
 
 <script>
