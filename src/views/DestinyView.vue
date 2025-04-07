@@ -166,7 +166,7 @@ export default {
 
     const getData = async function getData() {
       if (!selectedOption.value) {
-        openModal('請選擇一個城市!', 'error');
+        openModal('請選擇一個城市！', 'error');
         return;
       }
 
@@ -183,8 +183,8 @@ export default {
         shopData.value = res.data;
         console.log('選擇城市的咖啡店數量', selectedOption.value, shopData.value.length);
       } catch (error) {
-        console.error('API 請求失敗!', error);
-        openModal('取得資料失敗', 'error');
+        console.error('API 請求失敗！', error);
+        openModal('取得資料失敗，請重新整理後再試一次，謝謝！', 'error');
       } finally {
         isLoading.value = false;
       }
