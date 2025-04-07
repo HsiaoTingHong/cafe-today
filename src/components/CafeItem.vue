@@ -6,7 +6,7 @@
       <span class="dark-text-xs">{{ cafe.address }}</span>
       <span :class="statusCafe">{{ cafe.open_time || '無' }}</span>
 
-      <!-- 加入收藏按鈕 -->
+      <!-- 加入待收藏清單按鈕 -->
       <button
         :disabled="cafe.open_time === ''"
         @click="addToSave"
@@ -14,7 +14,7 @@
             ? 'button click-color-mid'
             : 'button not-allowed'"
       >
-        {{ isAvailable ? "加入待收藏" : "沒有營業時間" }}
+        {{ isAvailable ? "加入待收藏清單" : "沒有營業時間" }}
       </button>
     </div>
   </div>

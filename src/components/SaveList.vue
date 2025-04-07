@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <h2 class="title">收藏起來</h2>
+    <h2 class="title">待收藏清單</h2>
 
     <!-- 沒有資料 -->
     <div v-if="!items.length" class="no-data-bg">
@@ -119,7 +119,7 @@ const checkout = () => {
   saveStore.checkout();
 
   // 收藏成功後顯示 ModalBox
-  openModal(`收藏成功！總共收藏了 ${saveCount.value} 間咖啡店`, 'success');
+  openModal(`收藏成功！已收藏 ${saveCount.value} 間咖啡店到你的口袋名單`, 'success');
   saveStore.clearSave();
 };
 </script>

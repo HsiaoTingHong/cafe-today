@@ -10,7 +10,7 @@
         </router-link>
         <router-link to="/list/saveListView" href="#"
         class="button click-color-light saveCount-relative">
-          收藏起來
+          待收藏清單
 
           <!-- 點擊加入收藏後，右上角的數量小圈圈 -->
           <span
