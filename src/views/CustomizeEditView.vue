@@ -201,7 +201,7 @@ export default {
       // 儲存到 localStorage
       savedCafes.push({ ...CustomizeCafe });
       localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
-      openModal('收藏到你的口袋名單成功！', 'success');
+      openModal('已成功收藏到你的口袋名單！', 'success');
 
       // 儲存後清空表單
       CustomizeCafe.name = '';
