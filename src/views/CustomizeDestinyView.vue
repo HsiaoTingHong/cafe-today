@@ -47,7 +47,7 @@
       :disabled="isDestiny || isSavedCafesNoData"
     >
       <span v-if="isSavedCafesNoData">
-        {{ isSavedCafesNoData ? "你的私藏咖啡巡禮清單是空的" : "點擊進行抽籤" }}
+        {{ isSavedCafesNoData ? "你的口袋名單是空的" : "點擊進行抽籤" }}
       </span>
       <span v-else>
         {{ isDestiny ? "抽籤中..." : "點擊進行抽籤" }}

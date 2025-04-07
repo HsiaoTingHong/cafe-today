@@ -4,9 +4,9 @@
 
     <!-- 沒有資料 -->
     <div v-if="!items.length" class="no-data-bg">
-      <p class="no-data-text">你的收藏清單是空的</p>
+      <p class="no-data-text">你的待收藏清單是空的</p>
       <router-link to="/list/listTaichung" href="#" class="button click-color-mid">
-        瀏覽咖啡店列表
+        瀏覽台中咖啡店列表
       </router-link>
     </div>
 
@@ -21,7 +21,7 @@
             :checked="selectedItems.length === items.length"
             @change="toggleSelectAll"
           />
-          <label for="select-all" class="light-bold-text">全選</label>
+          <label for="select-all" class="light-bold-text">全選刪除</label>
         </div>
 
         <button
@@ -44,7 +44,7 @@
         <div class="save-count-container">
           <span class="light-bold-text">總共收藏咖啡店:</span>
           <span class="light-bold-text-xl"
-            >共 {{ saveCount }} 間</span
+            >共{{ saveCount }}間</span
           >
         </div>
       </div>
@@ -54,7 +54,7 @@
           @click="checkout"
           class="button click-color-light"
         >
-          確定收藏到你的私藏咖啡巡禮
+          確定全部收藏到你的口袋名單
         </button>
       </div>
     </div>

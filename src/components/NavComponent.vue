@@ -19,10 +19,10 @@
           <li class="button click-color-light">今天喝哪家?</li>
         </router-link>
         <router-link to="/list" @click.prevent="closeMenu">
-          <li class="button click-color-light">咖啡收藏</li>
+          <li class="button click-color-light">台中咖啡店列表</li>
         </router-link>
         <router-link to="/Customize" @click.prevent="closeMenu">
-          <li class="button click-color-light">你的咖啡小日子</li>
+          <li class="button click-color-light">你的口袋名單</li>
         </router-link>
       </ul>
     </nav>

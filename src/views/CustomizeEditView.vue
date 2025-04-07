@@ -1,6 +1,6 @@
 <template>
-  <!-- 巢狀路由-編輯你的口袋名單 -->
-  <h2 class="title">編輯你的口袋名單</h2>
+  <!-- 巢狀路由-自己新增口袋名單 -->
+  <h2 class="title">自己新增口袋名單</h2>
   <div class="screen-center">
     <h2 class="light-bold-text-xl">請輸入你的口袋名單</h2>
     <form @submit.prevent="submitForm">
@@ -48,7 +48,9 @@
         </textarea>
       </div>
 
-      <button type="submit" class="button click-color-light">加入你的私藏咖啡巡禮</button>
+      <div>
+        <button type="submit" class="button click-color-light button-top">加入你的口袋名單</button>
+      </div>
     </form>
   </div>
 
@@ -110,14 +112,14 @@ export default {
       );
 
       if (isAlreadySavedInStorage) {
-        openModal('此咖啡店已在你的私藏巡禮中！', 'error');
+        openModal('此咖啡店已在你的口袋名單中！', 'error');
         return;
       }
 
       // 儲存到 localStorage
       savedCafes.push({ ...CustomizeCafe });
       localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
-      openModal('收藏成功！', 'success');
+      openModal('收藏到你的口袋名單成功！', 'success');
 
       // 儲存後清空表單
       CustomizeCafe.name = '';

@@ -19,7 +19,7 @@ const useSaveStore = defineStore('save', {
         return false; // 回傳 false
       }
 
-      // 檢查咖啡店是否已在準備收藏清單中
+      // 檢查咖啡店是否已在待收藏清單中
       const existingItem = this.items.find((item) => item.id === cafe.id);
       if (!existingItem) {
         this.items.push({
@@ -58,7 +58,7 @@ const useSaveStore = defineStore('save', {
       this.selectedItems = [];
     },
     checkout() {
-      // 這邊要把 this.items 資料加入 localStorage 的 savedCafes中，在"你的私藏咖啡巡禮"拿出來
+      // 這邊要把 this.items 資料加入 localStorage 的 savedCafes中，在"你的口袋名單"拿出來
       // 在addToSave時已經檢查過重複，這裡不需要再檢查
       let savedCafes = JSON.parse(localStorage.getItem('savedCafes') || '[]');
       savedCafes = [...savedCafes, ...this.items];

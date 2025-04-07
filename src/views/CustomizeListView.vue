@@ -1,12 +1,12 @@
 <template>
-  <!-- 巢狀路由-你的私藏咖啡巡禮 -->
-  <h2 class="title">你的私藏咖啡巡禮</h2>
+  <!-- 巢狀路由-你的口袋名單 -->
+  <h2 class="title">你的口袋名單</h2>
 
   <!-- 沒有資料 -->
   <div v-if="!items.length" class="no-data-bg">
-    <p class="no-data-text">你的私藏咖啡巡禮清單是空的</p>
+    <p class="no-data-text">你的口袋名單是空的</p>
     <router-link to="/list/listTaichung" href="#" class="button click-color-mid">
-      瀏覽咖啡店列表
+      瀏覽台中咖啡店列表
     </router-link>
   </div>
 
@@ -79,7 +79,7 @@ const removeItem = (id) => {
 
   // 更新畫面上的資料
   items.value = savedCafes;
-  openModal('已從你的私藏巡禮刪除！', 'success');
+  openModal('已從你的口袋名單刪除！', 'success');
 };
 </script>
 

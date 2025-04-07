@@ -14,7 +14,7 @@
             ? 'button click-color-mid'
             : 'button not-allowed'"
       >
-        {{ isAvailable ? "加入收藏" : "沒有營業時間" }}
+        {{ isAvailable ? "加入待收藏" : "沒有營業時間" }}
       </button>
     </div>
   </div>
@@ -72,9 +72,9 @@ const addToSave = () => {
     const addToSaveResult = saveStore.addToSave(props.cafe);
 
     if (addToSaveResult) {
-      openModal('加入待收藏列表！', 'success');
+      openModal('加入待收藏清單！', 'success');
     } else {
-      openModal('此咖啡店已在你的私藏巡禮中！', 'error');
+      openModal('此咖啡店已在你的口袋名單中！', 'error');
     }
   }
 };

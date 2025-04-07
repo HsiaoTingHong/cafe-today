@@ -1,18 +1,18 @@
 <template>
   <div class="customize-bg">
-    <!-- 你的咖啡小日子 -->
+    <!-- 你的口袋名單 -->
 
     <!-- 左側選單 -->
     <div class="left-weight-20vw">
       <div class="child-nav-col">
         <router-link to="/customize/customizeList" href="#" class="button click-color-light">
-          你的私藏咖啡巡禮
+          你的口袋名單
         </router-link>
         <router-link to="/customize/customizeDestiny" href="#" class="button click-color-light">
           下一站要去哪?
         </router-link>
         <router-link to="/customize/customizeEdit" href="#" class="button click-color-light">
-          編輯你的口袋名單
+          自己新增口袋名單
         </router-link>
       </div>
     </div>
