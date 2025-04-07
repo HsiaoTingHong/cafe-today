@@ -1,3 +1,6 @@
+![image](https://github.com/user-attachments/assets/2c517246-298e-4361-87ee-7fb04d56e6d1)
+
+
 # Cafe Today - 今天要去哪間咖啡店？
 一個幫助選擇咖啡店的小工具，使用 Vue.js 3 開發
 
