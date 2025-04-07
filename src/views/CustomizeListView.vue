@@ -78,7 +78,7 @@ const removeItem = (id) => {
   localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
 
   // 更新畫面上的資料
-  items.value = savedCafes;
+  items.value = savedCafes.sort((a, b) => a.id.localeCompare(b.id));
   openModal('已從你的口袋名單刪除！', 'success');
 };
 </script>
