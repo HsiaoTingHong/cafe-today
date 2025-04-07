@@ -16,7 +16,7 @@ const useSaveStore = defineStore('save', {
       const isAlreadySavedInStorage = savedCafes.some((savedCafe) => savedCafe.id === cafe.id);
 
       if (isAlreadySavedInStorage) {
-        return false; // 回傳 false
+        return 'isAlreadySavedInStorage';
       }
 
       // 檢查咖啡店是否已在待收藏清單中
@@ -29,6 +29,8 @@ const useSaveStore = defineStore('save', {
           address: cafe.address,
           open_time: cafe.open_time,
         });
+      } else if (existingItem) {
+        return 'existingItem';
       }
 
       // addToSave 成功的話回傳 true

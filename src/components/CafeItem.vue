@@ -71,10 +71,12 @@ const addToSave = () => {
   if (isAvailable.value) {
     const addToSaveResult = saveStore.addToSave(props.cafe);
 
-    if (addToSaveResult) {
-      openModal('加入待收藏清單！', 'success');
-    } else {
+    if (addToSaveResult === 'isAlreadySavedInStorage') {
       openModal('此咖啡店已在你的口袋名單中！', 'error');
+    } else if (addToSaveResult === 'existingItem') {
+      openModal('此咖啡店已在待收藏清單中！', 'error');
+    } else if (addToSaveResult === true) {
+      openModal('成功加入待收藏清單！', 'success');
     }
   }
 };
