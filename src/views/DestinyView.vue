@@ -16,11 +16,17 @@
     </div>
     <transition>
       <div class="table-border" v-if="isDestinyDone">
-        <table class="table-all">
+        <table class="table-all" :id="`item-${selectedShop.id}`">
           <tr>
             <th class="table-td border-b border-r w-25 text-nowrap">店家名稱</th>
             <td class="table-td border-b">
               {{ selectedShop.name || "無" }}
+            </td>
+          </tr>
+          <tr>
+            <th class="table-td border-b border-r w-25 text-nowrap">城市</th>
+            <td class="table-td border-b">
+              {{ selectedShop.city || "無" }}
             </td>
           </tr>
           <tr>
@@ -37,61 +43,22 @@
             </td>
           </tr>
           <tr>
-            <th class="table-td border-b border-r">咖啡好喝</th>
-            <td class="table-td border-b">
-              {{ selectedShop.tasty || "無" }}
-            </td>
-          </tr>
-          <tr>
-            <th class="table-td border-b border-r">價格便宜</th>
-            <td class="table-td border-b">
-              {{ selectedShop.cheap || "無" }}
-            </td>
-          </tr>
-          <tr>
-            <th class="table-td border-b border-r">裝潢音樂</th>
-            <td class="table-td border-b">
-              {{ selectedShop.music || "無" }}
-            </td>
-          </tr>
-          <tr>
-            <th class="table-td border-b border-r">wifi穩定</th>
-            <td class="table-td border-b">
-              {{ selectedShop.wifi || "無" }}
-            </td>
-          </tr>
-          <tr>
-            <th class="table-td border-b border-r">插座多</th>
-            <td class="table-td border-b">
-              {{ selectedShop.socket || "無" }}
-            </td>
-          </tr>
-          <tr>
-            <th class="table-td border-b border-r">有無限時</th>
-            <td class="table-td border-b">
-              {{ selectedShop.limited_time || "無" }}
-            </td>
-          </tr>
-          <tr>
             <th class="table-td border-b border-r">營業時間</th>
             <td class="table-td border-b">
               {{ selectedShop.open_time || "無" }}
             </td>
           </tr>
-          <tr>
-            <th class="table-td border-r">官網連結</th>
-            <td class="table-td url-cell">
-              <a
-                :href="selectedShop.url"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="url-link"
-              >
-                {{ selectedShop.url || "無" }}
-              </a>
-            </td>
-          </tr>
         </table>
+
+        <!-- 加入收藏按鈕 -->
+        <div class="checkout">
+          <button
+            @click="checkout"
+            class="button click-color-mid"
+          >
+            點擊收藏到你的口袋名單
+          </button>
+        </div>
       </div>
     </transition>
     <p class="text-xs text-stone-400">
@@ -99,7 +66,7 @@
     </p>
     <!-- 當正在抽籤 or 尚未選擇城市時，按鈕會被禁用 -->
     <button
-      class="btn btn-start click-color-light"
+      class="btn click-color-light"
       @click.prevent="getDestinyShop"
       :disabled="isDestiny || !selectedOption"
     >
@@ -204,6 +171,36 @@ export default {
       }
     });
 
+    // 加入收藏
+    const checkout = () => {
+      // localStorage 資料
+      const savedCafes = JSON.parse(localStorage.getItem('savedCafes') || '[]');
+
+      // 檢查 localStorage 是否已有資料，有的話則不能送出資料
+      const isAlreadySavedInStorage = savedCafes.some(
+        (savedCafe) => savedCafe.id === selectedShop.value.id,
+      );
+
+      if (isAlreadySavedInStorage) {
+        openModal('此咖啡店已在你的口袋名單中！', 'error');
+        return;
+      }
+
+      // 將選擇的店家直接加入到 localStorage
+      const cafeToSave = {
+        id: selectedShop.value.id,
+        name: selectedShop.value.name,
+        city: selectedShop.value.city,
+        address: selectedShop.value.address,
+        open_time: selectedShop.value.open_time,
+      };
+
+      // 儲存到 localStorage
+      savedCafes.push(cafeToSave);
+      localStorage.setItem('savedCafes', JSON.stringify(savedCafes));
+      openModal('已成功收藏到你的口袋名單！', 'success');
+    };
+
     return {
       selectedOption,
       options,
@@ -218,6 +215,7 @@ export default {
       closeModal,
       modalMessage,
       modalType,
+      checkout,
     };
   },
 };
@@ -297,5 +295,9 @@ export default {
 
 .image {
   @apply opacity-40 w-65;
+}
+
+.checkout {
+  @apply p-4;
 }
 </style>
