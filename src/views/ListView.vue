@@ -25,7 +25,13 @@
 
     <!-- 右側元件渲染位置 -->
     <div class="">
-      <router-view></router-view>
+      <!-- 透過 route meta.keepAlive 屬性來決定哪些需要被緩存，哪些不需要 -->
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" v-if="$route.meta.keepAlive" />
+        </keep-alive>
+        <component :is="Component" v-if="!$route.meta.keepAlive" />
+      </router-view>
     </div>
   </div>
 </template>

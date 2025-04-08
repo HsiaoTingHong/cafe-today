@@ -25,11 +25,15 @@ const routes = [
     children: [
       {
         path: 'listTaichung',
+        name: 'listTaichung',
         component: () => import('../views/ListTaichungView.vue'),
+        meta: { keepAlive: true }, // 這個路由需要被緩存
       },
       {
         path: 'saveListView',
+        name: 'saveListView',
         component: () => import('../views/SaveListView.vue'),
+        meta: { keepAlive: false }, // 這個路由不需要被緩存
       },
     ],
   },
