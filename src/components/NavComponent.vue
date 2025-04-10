@@ -29,7 +29,7 @@
         <button
           type="button"
           class="button click-color-light"
-          @click="goToLogin"
+          @click.prevent="goToLogin"
           v-if="!isLoggedIn"
         >
           登入
@@ -37,7 +37,7 @@
         <button
           type="button"
           class="button click-color-light"
-          @click="handleLogOut"
+          @click.prevent="handleLogOut"
           v-if="isLoggedIn"
         >
           登出
@@ -45,7 +45,7 @@
         <button
           type="button"
           class="button click-color-light"
-          @click="goToRegister"
+          @click.prevent="goToRegister"
           v-if="!isLoggedIn"
         >
           註冊
@@ -78,9 +78,11 @@ export default {
     },
     goToRegister() { // 跳至註冊頁
       router.push('/register');
+      this.closeMenu();
     },
     goToLogin() { // 跳至登入頁
       router.push('/login');
+      this.closeMenu();
     },
     handleLogOut() {
       const auth = getAuth();
@@ -88,6 +90,7 @@ export default {
         .then(() => {
           // 登出成功，跳回首頁
           this.isLoggedIn = false;
+          this.closeMenu();
           router.push('/');
         })
         .catch((error) => {
