@@ -4,7 +4,7 @@
   <div class="screen-center">
     <h2 class="light-bold-text-xl">請輸入你的口袋名單</h2>
     <form @submit.prevent="submitForm">
-      <div class="form-group input-label light-bold-text">
+      <div class="input-label light-bold-text">
         <label for="CustomizeCafeName">店家<br />名稱</label>
         <input
           type="text"
@@ -13,18 +13,18 @@
           placeholder="請輸入店家名稱(必填)"
           :class="[
             'input-text',
-            errors.name ? 'error-input-text' : ''
+            errors.name ? 'errMsg-border' : ''
           ]"
         >
       </div>
       <span
         v-if="errors.name"
-        class="error-span"
+        class="errMsg-text"
       >
         {{ errors.name }}
       </span>
 
-      <div class="form-group input-label light-bold-text">
+      <div class="input-label light-bold-text">
         <label for="CustomizeCafeCity">城市</label>
         <input
           type="text"
@@ -33,18 +33,18 @@
           placeholder="請輸入城市英文小寫(必填)"
           :class="[
             'input-text',
-            errors.city ? 'error-input-text' : ''
+            errors.city ? 'errMsg-border' : ''
           ]"
         >
       </div>
       <span
         v-if="errors.city"
-        class="error-span"
+        class="errMsg-text"
       >
         {{ errors.city }}
       </span>
 
-      <div class="form-group input-label light-bold-text">
+      <div class="input-label light-bold-text">
         <label for="CustomizeCafeAddress">地址</label>
         <input
           type="text"
@@ -53,18 +53,18 @@
           placeholder="請輸入詳細中文地址(必填)"
           :class="[
             'input-text',
-            errors.address ? 'error-input-text' : ''
+            errors.address ? 'errMsg-border' : ''
           ]"
         >
       </div>
       <span
         v-if="errors.address"
-        class="error-span"
+        class="errMsg-text"
       >
         {{ errors.address }}
       </span>
 
-      <div class="form-group input-label light-bold-text">
+      <div class="input-label light-bold-text">
         <label for="CustomizeCafeHours">營業<br />時間</label>
         <textarea
           id="CustomizeCafeHours"
@@ -72,14 +72,14 @@
           placeholder="請輸入營業時間，例如：週一至週五 09:00-21:00(必填)"
           :class="[
             'input-text',
-            errors.open_time ? 'error-input-text' : ''
+            errors.open_time ? 'errMsg-border' : ''
           ]"
         >
         </textarea>
       </div>
       <span
         v-if="errors.open_time"
-        class="error-span"
+        class="errMsg-text"
       >
         {{ errors.open_time }}
       </span>
@@ -234,26 +234,8 @@ export default {
   gap-4 my-4;
 }
 
-.form-group {
-  @apply flex text-nowrap text-left font-bold mt-4 mb-1;
-}
-
-.input-label {
-  @apply flex justify-center items-center
-  text-nowrap;
-}
-
-.input-text {
-  @apply min-w-[60vw] sm:min-w-[50vw] md:min-w-[40vw] lg:min-w-[30vw]
-  ml-4 p-2 rounded-lg border-1 border-stone-300 text-sm;
-}
-
-.error-input-text {
-  @apply placeholder-red-300 border-1 border-red-300;
-}
-
-.error-span {
-  @apply text-red-500 text-sm mt-1 mb-4 ml-8;
+.errMsg-text {
+  @apply text-red-500 text-xs italic mt-1 mb-4 ml-8;
 }
 
 .button-top {

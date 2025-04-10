@@ -93,3 +93,18 @@
 .no-data-text {
     @apply text-gray-600 mb-4;
 }
+
+/* form input */
+.input-label {
+    @apply flex justify-between items-center
+    text-nowrap text-left font-bold mt-4 mb-1;
+}
+
+.input-text {
+    @apply min-w-[60vw] sm:min-w-[50vw] md:min-w-[40vw] lg:min-w-[30vw]
+    ml-4 p-2 rounded-lg border-1 border-stone-300 text-sm;
+}
+
+.errMsg-border {
+    @apply border-red-500;
+}
