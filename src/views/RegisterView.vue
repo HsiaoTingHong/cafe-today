@@ -51,12 +51,22 @@
       </div>
     </form>
   </div>
+
+  <!-- ModalBox -->
+  <ModalBox
+    :visible="showModal"
+    :message="modalMessage"
+    :type="modalType"
+    @close="closeModal"
+  />
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'vue-router';
+import ModalBox from '@/components/ModalBox.vue';
+import useModal from '@/functions/useModal';
 
 // firebase
 const auth = getAuth();
@@ -67,12 +77,22 @@ const email = ref('');
 const password = ref('');
 const errMsg = ref('');
 
+// 使用 useModal 邏輯
+const {
+  showModal,
+  modalMessage,
+  modalType,
+  openModal,
+  closeModal,
+} = useModal();
+
 const register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
       // 註冊
       const { user } = userCredential;
       console.log('註冊成功，即將跳轉至登入頁面', user);
+      openModal('註冊成功，即將跳轉至登入頁面！', 'success');
       // 註冊成功 跳轉至登入頁面
       setTimeout(() => {
         router.push('/login');
@@ -81,6 +101,7 @@ const register = () => {
     .catch((error) => {
       console.log('error', error);
       errMsg.value = '註冊失敗';
+      openModal('註冊失敗！', 'error');
     });
 };
 </script>
