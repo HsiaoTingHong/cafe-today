@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import setupFirebase from '@/services/firebase';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Loading from 'vue3-loading-overlay';
@@ -11,6 +12,7 @@ import './assets/animate.css';
 import './assets/fonts.css';
 
 const pinia = createPinia();
+setupFirebase();
 const app = createApp(App);
 
 app.use(pinia);
