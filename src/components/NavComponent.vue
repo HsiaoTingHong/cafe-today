@@ -24,17 +24,47 @@
         <router-link to="/Customize" @click.prevent="closeMenu">
           <li class="button click-color-light">你的口袋名單</li>
         </router-link>
+
+        <!-- 登入 登出 註冊 -->
+        <button
+          type="button"
+          class="button click-color-light"
+          @click="goToLogin"
+          v-if="!isLoggedIn"
+        >
+          登入
+        </button>
+        <button
+          type="button"
+          class="button click-color-light"
+          @click="handleLogOut"
+          v-if="isLoggedIn"
+        >
+          登出
+        </button>
+        <button
+          type="button"
+          class="button click-color-light"
+          @click="goToRegister"
+          v-if="!isLoggedIn"
+        >
+          註冊
+        </button>
       </ul>
     </nav>
   </header>
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import router from '@/router';
+
 export default {
   name: 'NavComponent',
   data() {
     return {
       isMenuOpen: false,
+      isLoggedIn: false, // 判斷是否登入
     };
   },
   methods: {
@@ -46,6 +76,34 @@ export default {
         this.isMenuOpen = !this.isMenuOpen;
       }
     },
+    goToRegister() { // 跳至註冊頁
+      router.push('/register');
+    },
+    goToLogin() { // 跳至登入頁
+      router.push('/login');
+    },
+    handleLogOut() {
+      const auth = getAuth();
+      signOut(auth) // 使用 firebase 登出方法，需由上方引入
+        .then(() => {
+          // 登出成功，跳回首頁
+          this.isLoggedIn = false;
+          router.push('/');
+        })
+        .catch((error) => {
+          console.log('登出失敗', error);
+        });
+    },
+  },
+  mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => { // 使用 firebase 方法，需由上方引入
+      if (user) {
+        this.isLoggedIn = true;
+      } else {
+        this.isLoggedIn = false;
+      }
+    });
   },
 };
 </script>

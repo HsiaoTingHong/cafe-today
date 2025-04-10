@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import HomeView from '../views/HomeView.vue';
 
 const routes = [
@@ -42,6 +43,7 @@ const routes = [
     name: 'customize',
     component: () => import('../views/CustomizeView.vue'),
     redirect: '/customize/customizeList', // 預設到子路由
+    meta: { requiresAuth: true }, // 需登入才能看到的頁面
     children: [
       {
         path: 'customizeList',
@@ -58,6 +60,16 @@ const routes = [
     ],
   },
   {
+    path: '/login',
+    name: 'loginView',
+    component: () => import('../views/LoginView.vue'),
+  },
+  {
+    path: '/register',
+    name: 'registerView',
+    component: () => import('../views/RegisterView.vue'),
+  },
+  {
     path: '/storeView',
     name: 'storeView',
     component: () => import('../views/StoreViewComposition.vue'),
@@ -72,6 +84,32 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.NODE_ENV === 'production' ? '/cafe-today/' : '/'),
   routes,
+});
+
+// 進入路由前判斷，若 無登入 且 無找到登入user 就跳轉到登入頁
+const getCurrentUser = () => new Promise((resolve, reject) => {
+  const removeListener = onAuthStateChanged(
+    getAuth(),
+    (user) => {
+      removeListener();
+      resolve(user);
+    },
+    reject,
+  );
+});
+
+router.beforeEach(async (to) => {
+  const user = await getCurrentUser();
+
+  if (to.meta.requiresAuth && !user) {
+    return {
+      path: '/login',
+      query: { redirect: to.fullPath },
+    };
+  }
+
+  // 不阻擋則回傳 true 讓路由繼續
+  return true;
 });
 
 export default router;
