@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <nav class="nav wrapper">
-      <router-link to="/">
+      <router-link to="/" @click.prevent="closeMenu">
         <p class="logo click-color-dark font-amatic-sc">cafe today?</p>
       </router-link>
       <div class="md:hidden">
