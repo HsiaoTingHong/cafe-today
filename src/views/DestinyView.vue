@@ -132,6 +132,67 @@ export default {
       closeModal,
     } = useModal();
 
+    // 使用 useDestinyShop 抽籤邏輯
+    const {
+      selectedShop,
+      isDestiny,
+      isDestinyDone,
+      getDestinyShop,
+    } = useDestinyShop(shopData);
+
+    // 預加載 api 資料
+    const preloadedCities = ref(new Set()); // 追蹤已預加載過的城市
+    const preloadCityData = async function preloadCityData(city) {
+      if (!city || preloadedCities.value.has(city)) {
+        return;
+      }
+
+      // 檢查 localStorage 的 api cache 資料
+      const cacheKey = `cafe_data_${city}`;
+      const cachedData = getApiCache(cacheKey);
+
+      if (cachedData) {
+        shopData.value = cachedData;
+        preloadedCities.value.add(city);
+        console.log(`城市 ${city} 資料已在 localStorage 中`);
+        return;
+      }
+
+      // 沒有有效的 api cache 資料，啟動預加載
+      try {
+        const apiUrl = getCafesApiUrl(city);
+        console.log(`預加載城市 ${city} 資料，URL: ${apiUrl}`);
+
+        setTimeout(async () => {
+          try {
+            const res = await axios.get(apiUrl);
+
+            // 存入 localStorage
+            setApiCache(cacheKey, res.data);
+            preloadedCities.value.add(city);
+            console.log(`城市 ${city} 資料預加載完成，共 ${res.data.length} 筆資料`);
+          } catch (error) {
+            console.error(`預加載城市 ${city} 資料失敗:`, error);
+          }
+        }, 0);
+      } catch (error) {
+        console.error(`預加載城市 ${city} 資料準備失敗:`, error);
+      }
+    };
+
+    // 執行預加載
+    const preloadPopularCities = function preloadPopularCities() {
+      const popularCities = ['taipei', 'taichung', 'kaohsiung', 'tainan'];
+
+      popularCities.forEach((city) => {
+        preloadCityData(city);
+      });
+    };
+
+    // 在 setup 中直接預加載
+    preloadPopularCities();
+
+    // 取得 api 資料
     const getData = async function getData() {
       if (!selectedOption.value) {
         openModal('請選擇一個城市！', 'error');
@@ -168,14 +229,6 @@ export default {
         isLoading.value = false;
       }
     };
-
-    // 使用 useDestinyShop 抽籤邏輯
-    const {
-      selectedShop,
-      isDestiny,
-      isDestinyDone,
-      getDestinyShop,
-    } = useDestinyShop(shopData);
 
     watch(selectedOption, (newVal) => {
       if (newVal) {
