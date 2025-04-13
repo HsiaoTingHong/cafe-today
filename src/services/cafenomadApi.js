@@ -7,7 +7,7 @@
 
 // 其實要解決CORS的問題，正宗的解法，就是要請後端設置CORS header，這裡只是暫時的解法
 const BASE_URL = 'https://cafenomad.tw/api/v1.2/cafes/';
-const PROXY_SERVICE = 'https://thingproxy.freeboard.io/fetch/';
+const PROXY_SERVICE = 'https://api.allorigins.win/raw?url=';
 
 const getCafesApiUrl = (city) => {
   const API_URL = `${BASE_URL}${city}`;
