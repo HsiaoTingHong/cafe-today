@@ -137,9 +137,37 @@ export default {
         return;
       }
 
-      // apiUrl：在 vue.config.js 設定 proxy 前綴 & 綁定選擇的城市
-      // const apiUrl = `/api/v1.2/cafes/${this.selectedOption}`;
+      // 檢查 localStorage
+      const cacheKey = `cafe_data_${selectedOption.value}`;
+      const cachedItem = localStorage.getItem(cacheKey);
+      const now = Date.now();
 
+      // 定義 localStorage 過期時間 (30分鐘，單位毫秒)
+      const cacheExpiration = 30 * 60 * 1000;
+
+      // 檢查 localStorage 是否有資料且未過期
+      if (cachedItem) {
+        try {
+          const cachedData = JSON.parse(cachedItem);
+
+          // 檢查是否有 timestamp 屬性以及是否未過期
+          if (cachedData.timestamp && now - cachedData.timestamp < cacheExpiration) {
+            shopData.value = cachedData.data;
+            console.log('從 localStorage 獲取資料', selectedOption.value, shopData.value.length);
+            return;
+          } if (cachedData.timestamp && now - cachedData.timestamp >= cacheExpiration) {
+            // 已過期則清除資料
+            localStorage.removeItem(cacheKey);
+            console.log('localStorage 已過期(超過30分鐘)，已清除');
+          }
+        } catch (error) {
+          // 如果有錯誤清除資料
+          localStorage.removeItem(cacheKey);
+          console.error('localStorage 資料錯誤', error);
+        }
+      }
+
+      // apiUrl
       const apiUrl = getCafesApiUrl(selectedOption.value);
       console.log('apiUrl路徑', apiUrl);
 
@@ -148,7 +176,13 @@ export default {
       try {
         const res = await axios.get(apiUrl);
         shopData.value = res.data;
-        console.log('選擇城市的咖啡店數量', selectedOption.value, shopData.value.length);
+
+        // 存入 localStorage
+        localStorage.setItem(cacheKey, JSON.stringify({
+          data: shopData.value,
+          timestamp: now,
+        }));
+        console.log('選擇城市的咖啡店資料已更新', selectedOption.value, shopData.value.length);
       } catch (error) {
         console.error('API 請求失敗！', error);
         openModal('取得資料失敗，請重新整理後再試一次，謝謝！', 'error');
