@@ -91,6 +91,7 @@ import getCafesApiUrl from '@/services/cafenomadApi';
 import useDestinyShop from '@/functions/useDestinyShop';
 import ModalBox from '@/components/ModalBox.vue';
 import useModal from '@/functions/useModal';
+import { getApiCache, setApiCache } from '@/functions/useCheckApiCache';
 
 export default {
   name: 'DestinyView',
@@ -137,34 +138,14 @@ export default {
         return;
       }
 
-      // 檢查 localStorage
+      // 檢查 localStorage 的 api cache 資料
       const cacheKey = `cafe_data_${selectedOption.value}`;
-      const cachedItem = localStorage.getItem(cacheKey);
-      const now = Date.now();
+      const cachedData = getApiCache(cacheKey);
 
-      // 定義 localStorage 過期時間 (30分鐘，單位毫秒)
-      const cacheExpiration = 30 * 60 * 1000;
-
-      // 檢查 localStorage 是否有資料且未過期
-      if (cachedItem) {
-        try {
-          const cachedData = JSON.parse(cachedItem);
-
-          // 檢查是否有 timestamp 屬性以及是否未過期
-          if (cachedData.timestamp && now - cachedData.timestamp < cacheExpiration) {
-            shopData.value = cachedData.data;
-            console.log('從 localStorage 獲取資料', selectedOption.value, shopData.value.length);
-            return;
-          } if (cachedData.timestamp && now - cachedData.timestamp >= cacheExpiration) {
-            // 已過期則清除資料
-            localStorage.removeItem(cacheKey);
-            console.log('localStorage 已過期(超過30分鐘)，已清除');
-          }
-        } catch (error) {
-          // 如果有錯誤清除資料
-          localStorage.removeItem(cacheKey);
-          console.error('localStorage 資料錯誤', error);
-        }
+      if (cachedData) {
+        shopData.value = cachedData;
+        console.log('從 localStorage 獲取資料', selectedOption.value, shopData.value.length);
+        return;
       }
 
       // apiUrl
@@ -177,11 +158,8 @@ export default {
         const res = await axios.get(apiUrl);
         shopData.value = res.data;
 
-        // 存入 localStorage
-        localStorage.setItem(cacheKey, JSON.stringify({
-          data: shopData.value,
-          timestamp: now,
-        }));
+        // 更新 localStorage 的 api cache 資料
+        setApiCache(cacheKey, shopData.value);
         console.log('選擇城市的咖啡店資料已更新', selectedOption.value, shopData.value.length);
       } catch (error) {
         console.error('API 請求失敗！', error);
