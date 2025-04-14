@@ -60,9 +60,13 @@ const useCafeStore = defineStore('cafes', {
       return this.preloadPromises[city];
     },
 
-    // 把要預加載的城市陣列傳入執行 preloadCity
+    // 把要預加載的城市陣列傳入依序執行 preloadCity
     preloadMultipleCities(cities = []) {
-      return Promise.all(cities.map((city) => this.preloadCity(city)));
+      let sequence = Promise.resolve();
+      cities.forEach((city) => {
+        sequence = sequence.then(() => this.preloadCity(city));
+      });
+      return sequence;
     },
   },
 });

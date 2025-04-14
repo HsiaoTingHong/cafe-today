@@ -30,7 +30,11 @@ export default {
     onBeforeMount(() => {
       // 預加載資料
       const cafeStore = useCafeStore();
-      cafeStore.preloadMultipleCities(['taipei', 'taichung', 'tainan', 'kaohsiung']);
+      try {
+        cafeStore.preloadMultipleCities(['taipei', 'taichung', 'tainan', 'kaohsiung']);
+      } catch (error) {
+        console.error('預加載資料失敗:', error);
+      }
     });
   },
 };
