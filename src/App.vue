@@ -17,12 +17,21 @@
 <script>
 import NavComponent from '@/components/NavComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+import { onBeforeMount } from 'vue';
+import useCafeStore from '@/stores/cafes';
 
 export default {
   name: 'App',
   components: {
     NavComponent,
     FooterComponent,
+  },
+  setup() {
+    onBeforeMount(() => {
+      // 預加載資料
+      const cafeStore = useCafeStore();
+      cafeStore.preloadMultipleCities(['taipei', 'taichung', 'tainan', 'kaohsiung']);
+    });
   },
 };
 </script>

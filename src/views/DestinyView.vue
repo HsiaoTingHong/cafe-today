@@ -4,7 +4,7 @@
     <p class="slogan">尋找你的咖啡靈魂</p>
     <div class="container">
       <label for="dropdown" class="label">選擇城市：</label>
-      <select id="dropdown" v-model="selectedOption" class="select">
+      <select id="dropdown" v-model="selectedCity" class="select">
         <option
           v-for="option in options"
           :key="option.value"
@@ -68,7 +68,7 @@
     <button
       class="btn click-color-light"
       @click.prevent="getDestinyShop"
-      :disabled="isDestiny || !selectedOption"
+      :disabled="isDestiny || !selectedCity"
     >
       {{ isDestiny ? "抽籤中..." : "點擊進行抽籤" }}
     </button>
@@ -85,13 +85,13 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { ref, reactive, watch } from 'vue';
-import getCafesApiUrl from '@/services/cafenomadApi';
+import {
+  ref, reactive, watch, computed,
+} from 'vue';
 import useDestinyShop from '@/functions/useDestinyShop';
 import ModalBox from '@/components/ModalBox.vue';
 import useModal from '@/functions/useModal';
-import { getApiCache, setApiCache } from '@/functions/useCheckApiCache';
+import useCafeStore from '@/stores/cafes';
 
 export default {
   name: 'DestinyView',
@@ -99,7 +99,6 @@ export default {
     ModalBox,
   },
   setup() {
-    const selectedOption = ref('');
     const options = reactive([
       { value: '', label: '請先選擇城市' },
       { value: 'Keelung', label: '基隆' },
@@ -120,8 +119,15 @@ export default {
       { value: 'taitung', label: '台東' },
       { value: 'penghu', label: '澎湖' },
     ]);
-    const shopData = ref([]);
-    const isLoading = ref(false); // 是否正在取得 API 資料
+
+    // cafeStore 資料
+    const cafeStore = useCafeStore();
+
+    // 選擇的城市
+    const selectedCity = ref('');
+    const isLoading = computed(() => cafeStore.loadingCities[selectedCity.value]);
+    // 根據城市取得資料
+    const allCafes = computed(() => cafeStore.cafesByCity[selectedCity.value] || []);
 
     // 使用 useModal 邏輯
     const {
@@ -138,101 +144,19 @@ export default {
       isDestiny,
       isDestinyDone,
       getDestinyShop,
-    } = useDestinyShop(shopData);
+    } = useDestinyShop(allCafes);
 
-    // 預加載 api 資料
-    const preloadedCities = ref(new Set()); // 追蹤已預加載過的城市
-    const preloadCityData = async function preloadCityData(city) {
-      if (!city || preloadedCities.value.has(city)) {
-        return;
-      }
-
-      // 檢查 localStorage 的 api cache 資料
-      const cacheKey = `cafe_data_${city}`;
-      const cachedData = getApiCache(cacheKey);
-
-      if (cachedData) {
-        shopData.value = cachedData;
-        preloadedCities.value.add(city);
-        console.log(`城市 ${city} 資料已在 localStorage 中`);
-        return;
-      }
-
-      // 沒有有效的 api cache 資料，啟動預加載
-      try {
-        const apiUrl = getCafesApiUrl(city);
-        console.log(`預加載城市 ${city} 資料，URL: ${apiUrl}`);
-
-        setTimeout(async () => {
-          try {
-            const res = await axios.get(apiUrl);
-
-            // 存入 localStorage
-            setApiCache(cacheKey, res.data);
-            preloadedCities.value.add(city);
-            console.log(`城市 ${city} 資料預加載完成，共 ${res.data.length} 筆資料`);
-          } catch (error) {
-            console.error(`預加載城市 ${city} 資料失敗:`, error);
-          }
-        }, 0);
-      } catch (error) {
-        console.error(`預加載城市 ${city} 資料準備失敗:`, error);
-      }
-    };
-
-    // 執行預加載
-    const preloadPopularCities = function preloadPopularCities() {
-      const popularCities = ['taipei', 'taichung', 'kaohsiung', 'tainan'];
-
-      popularCities.forEach((city) => {
-        preloadCityData(city);
-      });
-    };
-
-    // 在 setup 中直接預加載
-    preloadPopularCities();
-
-    // 取得 api 資料
-    const getData = async function getData() {
-      if (!selectedOption.value) {
+    // 當使用者選擇城市時，觸發 API 載入
+    watch(selectedCity, async (city) => {
+      if (!city) {
         openModal('請選擇一個城市！', 'error');
         return;
       }
 
-      // 檢查 localStorage 的 api cache 資料
-      const cacheKey = `cafe_data_${selectedOption.value}`;
-      const cachedData = getApiCache(cacheKey);
-
-      if (cachedData) {
-        shopData.value = cachedData;
-        console.log('從 localStorage 獲取資料', selectedOption.value, shopData.value.length);
-        return;
-      }
-
-      // apiUrl
-      const apiUrl = getCafesApiUrl(selectedOption.value);
-      console.log('apiUrl路徑', apiUrl);
-
-      isLoading.value = true;
-
       try {
-        const res = await axios.get(apiUrl);
-        shopData.value = res.data;
-
-        // 更新 localStorage 的 api cache 資料
-        setApiCache(cacheKey, shopData.value);
-        console.log('選擇城市的咖啡店資料已更新', selectedOption.value, shopData.value.length);
-      } catch (error) {
-        console.error('API 請求失敗！', error);
+        await cafeStore.getCafesByCity(city);
+      } catch (e) {
         openModal('取得資料失敗，請重新整理後再試一次，謝謝！', 'error');
-      } finally {
-        isLoading.value = false;
-      }
-    };
-
-    watch(selectedOption, (newVal) => {
-      if (newVal) {
-        getData(); // 只在選擇城市後才觸發 API 請求
       }
     });
 
@@ -267,14 +191,13 @@ export default {
     };
 
     return {
-      selectedOption,
+      selectedCity,
       options,
       selectedShop,
-      shopData,
+      allCafes,
       isLoading,
       isDestiny,
       isDestinyDone,
-      getData,
       getDestinyShop,
       showModal,
       closeModal,

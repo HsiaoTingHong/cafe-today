@@ -17,9 +17,9 @@
 
     <!-- 列表 -->
     <transition>
-      <!-- API loading 中 -->
-      <div v-if="loading">
-        <LoadingOverlay :active="loading" color="#79716b"></LoadingOverlay>
+      <!-- API isLoading 中 -->
+      <div v-if="isLoading">
+        <LoadingOverlay :active="isLoading" color="#79716b"></LoadingOverlay>
       </div>
 
       <!-- API 錯誤 -->
@@ -64,12 +64,16 @@ import usePagination from '@/functions/usePagination';
 import CafeItem from './CafeItem.vue';
 import PageComponent from './PageComponent.vue';
 
+// cafeStore 資料
 const cafeStore = useCafeStore();
 
-// cafeStore 資料
-const loading = computed(() => cafeStore.loading);
-const error = computed(() => cafeStore.error);
-const allCafes = computed(() => cafeStore.cafes || []);
+// 選擇的城市（預設為 taichung）
+const selectedCity = ref('taichung');
+
+// 根據城市取得資料
+const isLoading = computed(() => cafeStore.loadingCities[selectedCity.value]);
+const error = computed(() => cafeStore.errors[selectedCity.value]);
+const allCafes = computed(() => cafeStore.cafesByCity[selectedCity.value] || []);
 
 // 搜尋相關
 const cacheSearch = ref('');
@@ -92,23 +96,18 @@ const {
   resetPage,
 } = usePagination(filteredCafes, 24);
 
-// 當搜尋條件改變時，重置分頁
-const handleSearch = () => {
-  resetPage();
-};
-
-// 監聽搜尋條件變更
+// 監聽搜尋條件變更，當搜尋條件改變時，重置分頁
 watch(cacheSearch, () => {
-  handleSearch();
+  resetPage();
 });
 
-// 取得 API
+// 取得 API，初始載入選擇城市的咖啡店資料
 onBeforeMount(async () => {
   try {
-    await cafeStore.getCafes();
-    console.log('Cafes資料數量:', totalItemsNumber.value);
+    await cafeStore.getCafesByCity(selectedCity.value);
+    console.log(`取得 ${selectedCity.value} 咖啡店資料，共 ${totalItemsNumber.value} 筆`);
   } catch (e) {
-    console.error('取得咖啡店資料時發生錯誤:', e);
+    console.error(`取得 ${selectedCity.value} 咖啡店資料時發生錯誤:`, e);
   }
 });
 </script>
