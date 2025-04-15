@@ -91,15 +91,15 @@ const {
 
 const login = () => {
   signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((userCredential) => {
+    .then(() => {
       // 登入
-      const { user } = userCredential;
-      console.log('登入成功，即將跳轉至首頁', user);
+      // const { user } = userCredential;
+      // console.log('登入成功，即將跳轉至首頁', user);
       openModal('登入成功，即將跳轉至首頁！', 'success');
-      // 登入成功 跳轉至其他頁面
+      // 登入成功 跳轉至首頁
       setTimeout(() => {
         router.push('/');
-      }, 3000);
+      }, 2000);
     })
     .catch((error) => {
       console.log('登入失敗', error);

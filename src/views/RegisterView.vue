@@ -88,18 +88,18 @@ const {
 
 const register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then((userCredential) => {
+    .then(() => {
       // 註冊
-      const { user } = userCredential;
-      console.log('註冊成功，即將跳轉至登入頁面', user);
-      openModal('註冊成功，即將跳轉至登入頁面！', 'success');
-      // 註冊成功 跳轉至登入頁面
+      // const { user } = userCredential;
+      // console.log('註冊成功，即將跳轉至登入頁面', user);
+      openModal('註冊成功，已登入，即將跳轉至首頁！', 'success');
+      // 註冊成功 跳轉至首頁
       setTimeout(() => {
-        router.push('/login');
-      }, 3000);
+        router.push('/');
+      }, 2000);
     })
     .catch((error) => {
-      console.log('error', error);
+      console.log('註冊失敗', error);
       errMsg.value = '註冊失敗';
       openModal('註冊失敗！', 'error');
     });
