@@ -17,8 +17,8 @@
 <script>
 import NavComponent from '@/components/NavComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
-import { onBeforeMount } from 'vue';
-import useCafeStore from '@/stores/cafes';
+// import { onBeforeMount } from 'vue';
+// import useCafeStore from '@/stores/cafes';
 
 export default {
   name: 'App',
@@ -26,16 +26,16 @@ export default {
     NavComponent,
     FooterComponent,
   },
-  setup() {
-    onBeforeMount(() => {
-      // 預加載資料
-      const cafeStore = useCafeStore();
-      try {
-        cafeStore.preloadMultipleCities(['taipei', 'taichung', 'tainan', 'kaohsiung']);
-      } catch (error) {
-        console.error('預加載資料失敗:', error);
-      }
-    });
-  },
+  // setup() {
+  //   onBeforeMount(() => {
+  //     // 預加載資料
+  //     const cafeStore = useCafeStore();
+  //     try {
+  //       cafeStore.preloadMultipleCities(['taipei', 'taichung', 'tainan', 'kaohsiung']);
+  //     } catch (error) {
+  //       console.error('預加載資料失敗:', error);
+  //     }
+  //   });
+  // },
 };
 </script>
